@@ -1,0 +1,30 @@
+- Make plans extremely concise. Sacrifice grammar for concision.
+- At the end of each plan, give a list of unanswered questions to answer, if any
+- Try to follow the "expand-then-contract" pattern whenever possible
+	- e.g. instead of outright replacing one thing, define the replacement as a new addition initially, rewire the existing usages to this new addition, then remove the old implementation, posibly as one of the final stages of the plan
+- Write plans with clear independent stages
+	- This is so that each stage can be incrementally tested and individually committed, e.g. via `git`
+		- If a stage would involve multiple commits, it must be broken down further
+	- CRITICAL: Plans must be executed stage-by-stage. The Agent must stop implementation after a stage, yield control to the user to allow them to review, test, and commit the changes before continuing.
+	- The agent must NOT commit the changes on its own
+	- If a stage consists of numerous file changes, and/or is expected to run for a long time, consider breaking it down to sub-stages, or even to separate stages entirely.
+		- This is so that the changes can be reviewed more easily
+	- Update plans at the end of every stage
+		- The update should include necessary context and information discovered or implemented by the current stage that is also needed by the next stage(s)
+			- Do not include version control info in the updates. e.g. do not mention whether files are committed or not. These will be taken care of separately.
+		- This is because stages may be implemented in different sessions, or by different agents entirely
+		- Do NOT commit plan updates separately. As much as possible, commit as part of the stage changes itself.
+	- Recommend model and effort levels to be used per stage
+		- If the user proceeds with a stage without using BOTH recommended model AND effort, block it once. Allow the user to override it.
+		- Strike a balance between cost and time. e.g. a long-running task in a bespoke model and high effort model would use up our credits fast, so this is not preferable most of the time.
+- Copy plans to covered projects
+	- First stages of plans must always be to copy the plan on the projects to be covered by that plan. This is so that an opaque, durable copy of the plan will always be available throughout the implementation. If the project is version-controlled, plan changes can be tracked as well.
+		- This can also be thought of as a clear "expand" stage
+	- Later (ideally last) stages of the plan would clean up the copies it made during the first stages. This signifies the plan is done.
+		- This can also thought of as a clear "contract" stage
+- EOD report as later stages
+	- Include a stage for writing an EOD report based on what the plan has implemented
+	- This does not need to be written to an actual file. It can just be given straight to the user via the chat interface.
+	- This must be one of the last stages, before the plan is deleted from the codebases
+- Perform dependency installations as separate stages
+	- Goal is to have a separate commits for e.g. `package.json` changes

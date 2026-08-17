@@ -1,0 +1,2 @@
+- Prefer redirect() function during render whenever possible. Use useRouter().replace() only if redirect must happen in event handlers
+- Prefer full Link components over useRouter().push()

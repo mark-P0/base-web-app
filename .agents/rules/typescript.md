@@ -1,0 +1,13 @@
+- Prefer `type` over `interface`
+- Define types at the top of the files
+	- Prefer inferring and/or in-lining types over explicit type definitions
+- Consider the pattern `x satisfies never` as debug code. It serves as marker for lines that need to be dealt with later so that the type checker can notify about it
+- Functions with single object argument: Prefer `args` name. Define type inline with function definition. Destructure `args` in function body.
+- In tab auto-complete: append `satisfies never` when completing console expressions, e.g. `console.warn`, `console.debug`
+- Prefer function declarations (function doSomething() {}) over arrow functions (const doSomething = () => {})
+- Prefer actual if/else over ternaries. If verbose, wrap if/else sequence in an arrow function, maybe even an IIFE.
+- Prefer inferring function return type over explicit hint. If type hinting is required, type hint the returned variable instead
+- Prefer implicit falsy checks
+	- e.g. for a `value` of type `T | null`, check if it has an actual value by `!value`, NOT `value !== null`. Same for types `T | undefined` and `T | null | undefined`
+	- The exception is when the type includes a valid falsy value. For example, if value is `number | null` and `0` is valid, explicitly exclude the valid falsy value: `!value && value !== 0`. Same for strings `!value && value !== ''`.
+	- Exception can also apply to booleans, but consider that most of the time, `false` `null` and `undefined` should refer to the same thing

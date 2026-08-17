@@ -1,0 +1,2 @@
+- You may NOT run any dev servers on your own for verifying your work
+	- Ask the user to run it for you, then target it with your verifications
