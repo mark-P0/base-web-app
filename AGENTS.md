@@ -20,7 +20,6 @@ Read the named file in `.agents/rules/` before work in its domain:
 | Any source-code change | `all-programming-languages.md` |
 | TypeScript change | `typescript.md` |
 | React component or hook change | `react.md` and `typescript.md` |
-| Next.js routing or navigation | `next-js.md` and `react.md` |
 | Verification that requires a dev server | `verifications.md` |
 | A requested plan | `plans.md` |
 | Git commit or pull request work | `git.md` |
