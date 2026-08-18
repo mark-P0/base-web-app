@@ -105,6 +105,11 @@ Add `/dev/dark-mode` as an interactive diagnostics and visual showcase page. The
    - Update the plan file with implementation findings.
    - Stop for user review.
 
+   Implementation findings:
+   - `bun run test:unit` runs pure tests from `tests/unit/`. `bun run test:integration` preloads `tests/integration/setup.js` and runs tests from `tests/integration/`.
+   - The preload registers Happy DOM, enables React `act()`, clears the DOM and web storage after each test, and restores the default `matchMedia` function.
+   - `tests/integration/match-media.js` provides deterministic media-query values and change notifications for integration tests.
+
 7. **Add dark-mode unit and integration coverage** — `gpt-5.6-terra`, high effort
    - Add direct unit coverage for document updates and theme-change subscriptions.
    - Execute the real initialization script in Happy DOM. Verify stored, missing, invalid, explicit, and system modes.
@@ -117,7 +122,14 @@ Add `/dev/dark-mode` as an interactive diagnostics and visual showcase page. The
    - Run unit and integration tests, lint, and TypeScript checks. Do not run a build or development server.
    - Stop for user review and manual browser testing.
 
-8. **Complete and clean up** — `gpt-5.6-luna`, low effort
+8. **Rewrite test files in TypeScript** — `gpt-5.6-luna`, medium effort
+   - Convert the unit and integration test files and test helpers from JavaScript to TypeScript.
+   - Add only the type support that Bun requires for test files. Do not add another test framework.
+   - Keep the unit and integration test commands unchanged.
+   - Run unit and integration tests, lint, and TypeScript checks. Do not run a build or development server.
+   - Stop for user review.
+
+9. **Complete and clean up** — `gpt-5.6-luna`, low effort
    - Apply corrections found during manual testing.
    - Run unit and integration tests, lint, and TypeScript checks.
    - Remove `plans/dark-mode-toggle.md` after final acceptance.
