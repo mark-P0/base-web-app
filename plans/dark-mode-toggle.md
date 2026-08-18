@@ -6,15 +6,24 @@ Add a global floating theme button with this cycle:
 
 `system → light → dark → system`
 
-Use a JavaScript-readable cookie. An early head script will read the cookie and apply the theme before first paint. This preserves static rendering and prevents a visible theme flash.
+Use `localStorage` for the selected mode. An early head script will read it and apply the theme before first paint. This preserves static rendering and prevents a visible theme flash.
+
+Import dark-mode modules directly. Do not add a `lib/dark-mode` barrel export.
 
 Add `/dev/dark-mode` as an interactive diagnostics and visual showcase page. The existing `/dev` layout will keep this page unavailable in production.
+
+## Theme persistence decision
+
+- Use `localStorage` with the `theme` key. Missing or invalid values resolve to `system`.
+- Keep the root layout static. Do not read theme persistence from a Server Component.
+- A parser-blocking browser script resolves `system` from `prefers-color-scheme` before first paint.
+- A server-rendered root theme needs request-dependent rendering. That can reduce HTML caching, increase initial response time, and increase compute cost.
+- Cookies provide no current benefit because the server does not consume the selected mode. `localStorage` avoids sending the theme value with every request.
 
 ## Interfaces and behavior
 
 - Define `ThemeMode = "system" | "light" | "dark"` under `lib/dark-mode`.
-- Use `theme` as the cookie name. Missing or invalid values resolve to `system`.
-- Set `Path=/`, `Max-Age=31536000`, and `SameSite=Lax`. Add `Secure` on HTTPS.
+- Use `theme` as the `localStorage` key. Missing or invalid values resolve to `system`.
 - Store the selected mode in `data-theme` on `<html>`.
 - Toggle the existing `.dark` class according to the effective theme.
 - Listen for `prefers-color-scheme` changes while `system` is selected.
@@ -30,18 +39,25 @@ Add `/dev/dark-mode` as an interactive diagnostics and visual showcase page. The
    - Stop for user review.
 
 2. **Add the theme foundation** — `gpt-5.6-terra`, medium effort
-   - Add mode cycling, validation, cookie parsing and serialization, system resolution, document updates, and event subscription helpers under `lib/dark-mode`.
-   - Add an inline initialization script that reads the cookie before first paint.
+   - Add mode cycling, validation, localStorage read and write helpers, system resolution, document updates, and event subscription helpers under `lib/dark-mode`.
+   - Add a parser-blocking initialization script in `public/dark-mode-init.js` that reads the saved mode before first paint.
    - Add Bun unit tests for the pure logic.
    - Update the plan file with implementation findings.
    - Run tests, lint, and TypeScript checks. Do not run a build.
    - Stop for user review.
 
+   Implementation findings:
+   - `lib/dark-mode` contains the shared `ThemeMode` type, localStorage helpers, theme resolution, document updates, and event subscriptions.
+   - `public/dark-mode-init.js` is ready for a root-layout `<head>` mount in stage 3. It applies `data-theme` and the existing `.dark` class before first paint.
+   - The localStorage helpers use the `theme` key. The initialization script catches storage access failures and keeps the default light theme.
+   - Theme unit tests are in `tests/unit/dark-mode/`. Reserve `tests/integration/` for browser or multi-module coverage.
+   - Import modules directly from `lib/dark-mode`. Do not reintroduce a barrel export.
+
 3. **Integrate the global toggle** — `gpt-5.6-terra`, high effort
    - Add a small Client Component under `lib/dark-mode`.
    - Reuse the existing shadcn button and Lucide icons.
-   - Mount the initialization script in `<head>` and the toggle in the root layout.
-   - Keep the root layout as a Server Component. Do not call `cookies()` there.
+   - Mount `/dark-mode-init.js` as a non-deferred script in `<head>` and mount the toggle in the root layout.
+   - Keep the root layout as a Server Component. Do not make it request-dependent for theme persistence.
    - Use `suppressHydrationWarning` on `<html>`.
    - Reapply the theme during the development Strict Mode remount.
    - Hide the button until its client state matches the initialized document state.
@@ -51,12 +67,12 @@ Add `/dev/dark-mode` as an interactive diagnostics and visual showcase page. The
 
 4. **Add `/dev/dark-mode`** — `gpt-5.6-terra`, medium effort
    - Add a responsive development page under the existing production-protected `/dev` layout.
-   - Show live selected mode, effective light or dark theme, operating-system preference, and raw cookie value.
+   - Show live selected mode, effective light or dark theme, operating-system preference, and raw localStorage value.
    - Subscribe to the shared theme-change event and system preference changes.
    - Add theme token swatches for background, foreground, primary, secondary, muted, accent, destructive, border, input, and ring colors.
    - Add representative cards, text, buttons, and form controls for visual contrast checks.
    - Include concise test instructions that direct the user to the global floating toggle.
-   - Document the three modes, cookie contract, and development page in the README.
+   - Document the three modes, localStorage contract, and development page in the README.
    - Update the plan file and run tests, lint, and TypeScript checks.
    - Stop for user review and manual browser testing.
 
@@ -68,7 +84,8 @@ Add `/dev/dark-mode` as an interactive diagnostics and visual showcase page. The
 
 ## Test plan
 
-- Verify all cycle transitions and invalid-cookie fallback.
+- Store unit tests under `tests/unit/` and integration tests under `tests/integration/`.
+- Verify all cycle transitions and invalid-storage fallback.
 - Verify light, dark, and system selections persist after refresh.
 - Verify hard loads show the correct theme without a flash or hydration warning.
 - Verify system mode reacts immediately when the operating-system preference changes.
@@ -86,7 +103,7 @@ Add `/dev/dark-mode` as an interactive diagnostics and visual showcase page. The
 
 - The toggle applies globally, including development routes.
 - Live synchronization between separate browser tabs is out of scope. Other tabs receive the updated mode after reload.
-- The cookie contains no sensitive data and remains JavaScript-readable.
+- The localStorage value contains no sensitive data and remains JavaScript-readable.
 - Deployment is out of scope.
 - No dependency installation stage is needed.
 
