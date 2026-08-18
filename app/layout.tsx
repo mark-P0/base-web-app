@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import "@/lib/css/tailwind.css";
-import { ThemeToggle } from "@/lib/dark-mode/toggle";
+import { ThemeToggle } from "@/lib/dark-mode/toggle.client";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

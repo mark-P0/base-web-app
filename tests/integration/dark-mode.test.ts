@@ -3,10 +3,10 @@ import type { ReactNode } from "react";
 import { act, createElement, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
-import { DarkModeDevelopmentPage } from "../../lib/dark-mode/development-page";
+import { DarkModeDevelopmentPage } from "../../lib/dark-mode/development-page.client";
 import { applyThemeToDocument } from "../../lib/dark-mode/document";
 import { THEME_CHANGE_EVENT } from "../../lib/dark-mode/theme";
-import { ThemeToggle } from "../../lib/dark-mode/toggle";
+import { ThemeToggle } from "../../lib/dark-mode/toggle.client";
 import { installMatchMedia } from "./match-media";
 
 const initializationScript = await Bun.file("public/dark-mode-init.js").text();
