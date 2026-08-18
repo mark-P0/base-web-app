@@ -15,10 +15,16 @@
 		- This is because stages may be implemented in different sessions, or by different agents entirely
 		- Do NOT commit plan updates separately. As much as possible, commit as part of the stage changes itself.
 	- Recommend model and effort levels to be used per stage
+		- These must be visible immediately at the start of the stage's section
 		- If the user proceeds with a stage without using BOTH recommended model AND effort, block it once. Allow the user to override it.
 		- Strike a balance between cost and time. e.g. a long-running task in a bespoke model and high effort model would use up our credits fast, so this is not preferable most of the time.
+	- One of the last stages of the plan should be a review against the rules and conventions
+		- All changes introduced by the plan should be checked to see if they are aligned with the existing agent rules and repository conventions
 - Copy plans to covered projects
 	- Write them in a `/plans/` dir
+		- General filename structure should be `/plans/<short-task-title>/PLAN.md`
+		- This dir should be empty most of the time
+		- Existing plan files mean there is an on-going planned implementation
 	- First stages of plans must always be to copy the plan on the projects to be covered by that plan. This is so that an opaque, durable copy of the plan will always be available throughout the implementation. If the project is version-controlled, plan changes can be tracked as well.
 		- This can also be thought of as a clear "expand" stage
 	- Later (ideally last) stages of the plan would clean up the copies it made during the first stages. This signifies the plan is done.

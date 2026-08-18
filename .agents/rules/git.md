@@ -5,21 +5,28 @@
 - For agents making a commit, they must set themselves as the "author" for that commit
 	- The agent must set its simplest name, e.g. for Claude, keep the author name as "Claude" without specifying the exact model
 		- Ensure the appropriate email is used as well!
-	- Codex must use `--author="Codex <codex@openai.com>"`.
-	- Codex must never use the configured `user.name` or `user.email` as the author identity.
 	- This should be achievable via the `--author` option
 		- Prefer NOT overriding `user.name` and `user.email` via `git -c` option, even temporarily, as this leads agents to unexpected outputs
+		- Examples:
+			- Codex: `--author="Codex <codex@openai.com>"`
+			- Claude: `--author="Claude <noreply@anthropic.com>"`
 	- This author setting must be done per commit. It must NOT be set as a global/repo setting. If any user info is set, they must be left untouched
 	- If any user info is set, that must be set as the "committer" of that commit
 		- This should not require any additional setting
 - Generally, agents can only commit unstaged changes
 	- If there are staged changes and NO unstaged changes, agents may commit those as well
-	- If there is a mix of staged and unchanged changes, the agent should refuse committing
+	- If there is a mix of staged and unstaged changes, the agent should refuse committing
 - If the changes to be committed seem incoherent, the agent may refuse to create the commit
 	- The agent may also ask the user for clarification regarding the purpose of the commit
 - For agents making a commit, they must explain their commit message and description to the user
 - If working with multiple working directories, and the agent is told to commit the changes, the agent must commit all changes in all working directories in their corresponding repositories
 	- This holds unless the agent is told specifically to only commit changes in a specific repository or working directory
-- Agents must double check whether their commits actually applied
+- Agents must double check whether their commits were saved as intended
 	- Agents often say they committed in one repo when you actually did not, or only committed in another.
 	- An obvious smoking gun of this is commits of the exact same SHA but on different repos. This signifies the agent reads one commit as being done on different repos, when it was only applied on one.
+	- Other gotchas include:
+		- Commit descriptions with `\n` characters
+		- Mangled commit message and description
+		- Improper author and committer names (as per the rules above)
+
+- Do not use .gitkeep

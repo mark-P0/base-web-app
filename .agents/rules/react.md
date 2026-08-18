@@ -37,6 +37,10 @@
 	- The "default" return of such components should be `null`
 		- If all variants are properly accounted for, this should be unreachable
 
+- Files that primarily export a component should be named after a that component
+	- e.g. a file that primarily exports a `ThemeToggle` component should be named `ThemeToggle.tsx`
+	- In general, this means that all `*.tsx` files must be named after their primary component export
+
 ## Example component
 
 ```tsx

@@ -9,6 +9,34 @@
 - For a question-only request, answer it. Do not modify files.
 - Challenge instructions that conflict with sound engineering practice. Follow them if the user confirms the direction.
 
+### General file structure
+
+- `app/` dir
+    - Next.js App router
+    - As much as possible, should only contain Next.js-specific and routing-related files
+    - Features should be imported from the `lib/` dir
+
+- `lib/` dir
+    - Contains feature work in corresponding sub-dirs
+        - e.g. `/lib/dark-mode/` contain work related to theming and dark mode toggle
+    - As much as possible, the bulk of feature work should be written under this dir
+
+- `tests/` dir
+    - Tests and related files should be written here
+    - Main sub-dirs include `/tests/unit/` for unit tests, and `/tests/integration/` for integration tests
+
+- `docs/` dir
+    - Long-lived documentation of features should be written here
+    - General structure is `/docs/<feature-title>/<doc-type>.md`
+
+### Feature work
+
+- As much as possible, write the bulk of a feature's logic in a corresponding `lib/` sub-dir
+    - Import these in the `app/` files wherever needed
+- Features must have visual previews, demonstrations, and diagnostics in a corresponding `/dev/<feature-title>` page
+- As much as possible, feature work must include appropriate documentation
+- As much as possible, feature work must include appropriate unit and/or integration tests
+
 ### Any source code change
 
 - Before adding code, prefer: no change, existing project code, the standard library, native platform features, installed dependencies, then the smallest new implementation.
@@ -20,6 +48,11 @@
 - Try to sort imports of source code files
 - Prefer NOT writing one-liners
 	- Readability is preferred over concision and cleverness
+
+- Do NOT use barrel exports
+- Keep imports sorted
+    - All import lines should be grouped together
+- Keep files linted and formatted
 
 #### Ponytail rules
 
@@ -36,13 +69,15 @@ When writing code, go through each of them, and STOP at the first item that hold
 - Installed dependency?       → use it
 - Only then: the minimum that works
 
-### Documentation
-
-- As much as possible, agents must add or update existing documentation with their work.
-
 ### Tests
 
 - As much as possible, agents must include unit and integration tests with their work.
+- Use Bun's built-in test runner
+    - Do not use other test runners like Vitest, Jest
+    - Follow Bun's official docs regarding tests as much as possible, e.g. the use of Happy DOM for UI testing
+- Test that need significant setup are integration tests, e.g. rendering, networking
+    - Otherwise they should be unit tests
+- Write test files in TypeScript
 
 #### Work verifications
 
@@ -80,6 +115,8 @@ Keep these sub-sections and files as the detailed source of truth. Do not load u
 
 - Prefer `redirect()` function during render whenever possible. Use `useRouter().replace()` only if redirect must happen in event handlers
 - Prefer full `<Link />` components over `useRouter().push()`
+- Prefer server-side logic as much as possible
+- Files with `'use client'` directive should have a filename structure like `*.client.tsx`
 
 ####  This is NOT the Next.js you know
 
