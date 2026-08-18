@@ -82,6 +82,12 @@ Add `/dev/dark-mode` as an interactive diagnostics and visual showcase page. The
    - Update the plan file and run tests, lint, and TypeScript checks.
    - Stop for user review and manual browser testing.
 
+   Implementation findings:
+   - The protected `/dev/dark-mode` route renders a client diagnostics component while the route page stays server-rendered.
+   - Diagnostics listen to the shared theme-change event and to operating-system preference changes. They show selected mode, effective theme, operating-system preference, and the raw `theme` localStorage value.
+   - The page includes all requested token samples plus representative content, buttons, and form controls. The README documents the mode contract and test route.
+   - Manual browser testing remains required. Start the development server and verify all three modes, operating-system changes in system mode, focus indicators, and visual contrast.
+
 5. **Complete and clean up** — `gpt-5.6-luna`, low effort
    - Apply corrections found during manual testing.
    - Run tests, lint, and TypeScript checks.
