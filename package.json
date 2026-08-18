@@ -9,7 +9,7 @@
     "lint": "biome check",
     "format": "biome format --write",
     "test:unit": "bun test tests/unit",
-    "test:integration": "bun test --preload ./tests/integration/setup.js --pass-with-no-tests tests/integration"
+    "test:integration": "bun test --preload ./tests/integration/setup.ts --pass-with-no-tests tests/integration"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

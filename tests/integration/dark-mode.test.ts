@@ -1,4 +1,5 @@
 import { expect, test } from "bun:test";
+import type { ReactNode } from "react";
 import { act, createElement, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
@@ -6,7 +7,7 @@ import { DarkModeDevelopmentPage } from "../../lib/dark-mode/development-page";
 import { applyThemeToDocument } from "../../lib/dark-mode/document";
 import { THEME_CHANGE_EVENT } from "../../lib/dark-mode/theme";
 import { ThemeToggle } from "../../lib/dark-mode/toggle";
-import { installMatchMedia } from "./match-media.js";
+import { installMatchMedia } from "./match-media";
 
 const initializationScript = await Bun.file("public/dark-mode-init.js").text();
 const rootLayoutSource = await Bun.file("app/layout.tsx").text();
@@ -265,7 +266,7 @@ test("synchronizes the diagnostics page after toggle and system changes", async 
   }
 });
 
-async function click(element) {
+async function click(element: HTMLButtonElement) {
   await act(async () => {
     element.click();
   });
@@ -278,11 +279,15 @@ function getStatusMessage() {
     throw new Error("The theme status message is missing.");
   }
 
-  return status.textContent;
+  const message = status.textContent ?? "";
+
+  return message;
 }
 
 function getThemeToggle() {
-  const toggle = document.querySelector("button[aria-label^='Theme mode is']");
+  const toggle = document.querySelector<HTMLButtonElement>(
+    "button[aria-label^='Theme mode is']",
+  );
 
   if (!toggle) {
     throw new Error("The theme toggle is missing.");
@@ -291,7 +296,7 @@ function getThemeToggle() {
   return toggle;
 }
 
-async function render(component) {
+async function render(component: ReactNode) {
   const container = document.createElement("div");
   const root = createRoot(container);
 

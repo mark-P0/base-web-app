@@ -135,6 +135,11 @@ Add `/dev/dark-mode` as an interactive diagnostics and visual showcase page. The
    - Run unit and integration tests, lint, and TypeScript checks. Do not run a build or development server.
    - Stop for user review.
 
+   Implementation findings:
+   - All unit and integration tests, the Happy DOM preload, and the matchMedia helper now use TypeScript.
+   - `@types/bun` version `1.3.14` provides Bun test and runtime declarations.
+   - The `test:unit` and `test:integration` commands keep their names and behavior. The integration preload now targets `setup.ts`.
+
 9. **Complete and clean up** — `gpt-5.6-luna`, low effort
    - Apply corrections found during manual testing.
    - Run unit and integration tests, lint, and TypeScript checks.

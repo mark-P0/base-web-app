@@ -61,14 +61,14 @@ describe("resolveTheme", () => {
   });
 });
 
-function createStorage(values = {}) {
+function createStorage(values: Record<string, string> = {}) {
   const items = new Map(Object.entries(values));
 
   return {
-    getItem(key) {
+    getItem(key: string) {
       return items.get(key) ?? null;
     },
-    setItem(key, value) {
+    setItem(key: string, value: string) {
       items.set(key, value);
     },
   };

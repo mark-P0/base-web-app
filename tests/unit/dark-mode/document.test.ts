@@ -1,15 +1,16 @@
 import { describe, expect, test } from "bun:test";
-
+import type { ThemeChange } from "../../../lib/dark-mode/document";
 import {
   applyThemeToDocument,
   subscribeToSystemThemeChanges,
   subscribeToThemeChanges,
 } from "../../../lib/dark-mode/document";
+import type { ThemeMode } from "../../../lib/dark-mode/theme";
 
 describe("applyThemeToDocument", () => {
   test("updates the root and notifies subscribers", () => {
     const fakeDocument = createFakeDocument();
-    const changes = [];
+    const changes: ThemeChange[] = [];
     const unsubscribe = subscribeToThemeChanges({
       callback(change) {
         changes.push(change);
@@ -42,21 +43,27 @@ describe("applyThemeToDocument", () => {
 
 describe("subscribeToSystemThemeChanges", () => {
   test("notifies system mode only and removes its listener", () => {
-    let mode = "system";
-    let listener;
-    const changes = [];
+    let mode: ThemeMode = "system";
+    let listener: ((event: MediaQueryListEvent) => void) | undefined;
+    const changes: boolean[] = [];
     const mediaQueryList = {
-      addEventListener(type, callback) {
+      addEventListener(
+        type: string,
+        callback: (event: MediaQueryListEvent) => void,
+      ) {
         if (type === "change") {
           listener = callback;
         }
       },
-      removeEventListener(type, callback) {
+      removeEventListener(
+        type: string,
+        callback: (event: MediaQueryListEvent) => void,
+      ) {
         if (type === "change" && listener === callback) {
           listener = undefined;
         }
       },
-    };
+    } as MediaQueryList;
     const unsubscribe = subscribeToSystemThemeChanges({
       getMode() {
         return mode;
@@ -67,9 +74,9 @@ describe("subscribeToSystemThemeChanges", () => {
       },
     });
 
-    listener({ matches: true });
+    listener?.({ matches: true } as MediaQueryListEvent);
     mode = "dark";
-    listener({ matches: false });
+    listener?.({ matches: false } as MediaQueryListEvent);
     unsubscribe();
 
     expect(changes).toEqual([true]);
@@ -78,14 +85,14 @@ describe("subscribeToSystemThemeChanges", () => {
 });
 
 function createFakeDocument() {
-  const listeners = new Map();
-  const classNames = new Set();
+  const listeners = new Map<string, Set<EventListener>>();
+  const classNames = new Set<string>();
   const documentElement = {
     classList: {
-      contains(className) {
+      contains(className: string) {
         return classNames.has(className);
       },
-      toggle(className, force) {
+      toggle(className: string, force?: boolean) {
         if (force) {
           classNames.add(className);
           return true;
@@ -95,17 +102,17 @@ function createFakeDocument() {
         return false;
       },
     },
-    dataset: {},
+    dataset: {} as DOMStringMap,
   };
 
   return {
-    addEventListener(type, callback) {
+    addEventListener(type: string, callback: EventListener) {
       const callbacks = listeners.get(type) ?? new Set();
 
       callbacks.add(callback);
       listeners.set(type, callbacks);
     },
-    dispatchEvent(event) {
+    dispatchEvent(event: Event) {
       const callbacks = listeners.get(event.type) ?? new Set();
 
       for (const callback of callbacks) {
@@ -115,12 +122,12 @@ function createFakeDocument() {
       return true;
     },
     documentElement,
-    removeEventListener(type, callback) {
+    removeEventListener(type: string, callback: EventListener) {
       const callbacks = listeners.get(type);
 
       if (callbacks) {
         callbacks.delete(callback);
       }
     },
-  };
+  } as unknown as Document;
 }

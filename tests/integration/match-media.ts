@@ -1,4 +1,8 @@
-let defaultMatchMedia;
+type MediaQueryChangeListener =
+  | ((event: MediaQueryListEvent) => void)
+  | EventListenerObject;
+
+let defaultMatchMedia: typeof window.matchMedia | undefined;
 
 /**
  * Install a deterministic `matchMedia` implementation for an integration test.
@@ -7,15 +11,15 @@ let defaultMatchMedia;
  * media query list that the test created. Call `restore()` when the test needs
  * to restore the default implementation before shared cleanup runs.
  */
-export function installMatchMedia(args = {}) {
+export function installMatchMedia(args: { matches?: boolean } = {}) {
   let matches = args.matches ?? false;
-  const mediaQueryLists = new Set();
+  const mediaQueryLists = new Set<ReturnType<typeof createMediaQueryList>>();
 
   if (!defaultMatchMedia) {
     defaultMatchMedia = window.matchMedia;
   }
 
-  function matchMedia(query) {
+  function matchMedia(query: string) {
     const mediaQueryList = createMediaQueryList({ matches, query });
 
     mediaQueryLists.add(mediaQueryList);
@@ -25,7 +29,7 @@ export function installMatchMedia(args = {}) {
 
   window.matchMedia = matchMedia;
 
-  function setMatches(nextMatches) {
+  function setMatches(nextMatches: boolean) {
     matches = nextMatches;
 
     for (const mediaQueryList of mediaQueryLists) {
@@ -53,33 +57,36 @@ export function resetMatchMedia() {
   window.matchMedia = defaultMatchMedia;
 }
 
-function createMediaQueryList(args) {
+function createMediaQueryList(args: { matches: boolean; query: string }) {
   const { matches, query } = args;
-  const listeners = new Set();
+  const listeners = new Set<MediaQueryChangeListener>();
   let currentMatches = matches;
 
   const value = {
     media: query,
-    onchange: null,
+    onchange: null as MediaQueryList["onchange"],
     get matches() {
       return currentMatches;
     },
-    addEventListener(type, listener) {
+    addEventListener(type: string, listener: MediaQueryChangeListener | null) {
       if (type === "change" && listener) {
         listeners.add(listener);
       }
     },
-    removeEventListener(type, listener) {
+    removeEventListener(
+      type: string,
+      listener: MediaQueryChangeListener | null,
+    ) {
       if (type === "change" && listener) {
         listeners.delete(listener);
       }
     },
-    addListener(listener) {
+    addListener(listener: MediaQueryChangeListener | null) {
       if (listener) {
         listeners.add(listener);
       }
     },
-    removeListener(listener) {
+    removeListener(listener: MediaQueryChangeListener | null) {
       if (listener) {
         listeners.delete(listener);
       }
@@ -87,9 +94,9 @@ function createMediaQueryList(args) {
     dispatchEvent() {
       return true;
     },
-  };
+  } as MediaQueryList;
 
-  function notify(nextMatches) {
+  function notify(nextMatches: boolean) {
     currentMatches = nextMatches;
 
     const event = new MediaQueryListEvent("change", {

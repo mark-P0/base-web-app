@@ -1,12 +1,16 @@
 import { afterEach } from "bun:test";
 import { GlobalRegistrator } from "@happy-dom/global-registrator";
 
-import { resetMatchMedia } from "./match-media.js";
+import { resetMatchMedia } from "./match-media";
 
 // Bun preloads this file for `bun run test:integration`.
 GlobalRegistrator.register({ url: "http://localhost:3000" });
 
-globalThis.IS_REACT_ACT_ENVIRONMENT = true;
+const globalWithReactAct = globalThis as typeof globalThis & {
+  IS_REACT_ACT_ENVIRONMENT: boolean;
+};
+
+globalWithReactAct.IS_REACT_ACT_ENVIRONMENT = true;
 
 afterEach(() => {
   document.body.replaceChildren();
