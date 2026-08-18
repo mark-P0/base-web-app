@@ -93,6 +93,9 @@ Add `/dev/dark-mode` as an interactive diagnostics and visual showcase page. The
    - Update package metadata and the lockfile. Do not add test setup or tests in this stage.
    - Stop for user review.
 
+   Implementation findings:
+   - `@happy-dom/global-registrator` version `20.11.2` is installed as a development dependency. Bun updated `package.json` and `bun.lock`.
+
 6. **Add the integration test setup** — `gpt-5.6-luna`, medium effort
    - Register Happy DOM for Bun integration tests.
    - Add shared DOM cleanup, React `act()` configuration, and a deterministic `matchMedia` test helper.
