@@ -122,6 +122,12 @@ Add `/dev/dark-mode` as an interactive diagnostics and visual showcase page. The
    - Run unit and integration tests, lint, and TypeScript checks. Do not run a build or development server.
    - Stop for user review and manual browser testing.
 
+   Implementation findings:
+   - Unit tests cover document root updates, shared theme-change subscriptions, and system-preference subscriptions without a browser DOM.
+   - Happy DOM integration tests execute the deployed initialization script and render the real toggle and diagnostics components with their production dependencies.
+   - The integration tests cover persistence, mode cycling, document state, shared updates, icons, accessible labels, status announcements, native button markup, focus markup, storage failures, Strict Mode remounts, and responsive placement class contracts.
+   - Manual browser testing remains required for paint timing, hydration warnings, computed styling, safe-area layout, touch and keyboard activation, cross-route behavior, and the production-only diagnostics 404. The README lists this checklist.
+
 8. **Rewrite test files in TypeScript** — `gpt-5.6-luna`, medium effort
    - Convert the unit and integration test files and test helpers from JavaScript to TypeScript.
    - Add only the type support that Bun requires for test files. Do not add another test framework.

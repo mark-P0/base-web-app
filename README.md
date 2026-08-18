@@ -47,3 +47,16 @@ The floating button cycles the selected mode in this order: `system`, `light`, t
 The selected mode is stored in browser `localStorage` under the `theme` key. Valid values are `system`, `light`, and `dark`. A missing or invalid value uses `system`. The root document stores the selected value in `data-theme` and applies the `dark` class only when the effective theme is dark.
 
 In development, open [`/dev/dark-mode`](http://localhost:3000/dev/dark-mode) to inspect live theme state, token swatches, and contrast samples. This route is unavailable in production. Use the global floating button for all mode changes while testing the page.
+
+### Verification
+
+Run the automated checks with `bun run test:unit` and `bun run test:integration`.
+
+For manual browser checks, start the development server and verify the following items:
+
+- Hard loads apply each selected mode without a visible flash or hydration warning.
+- The button works with mouse, touch, Enter, and Space on application routes.
+- System mode updates after an operating-system color-preference change. Light and dark modes do not change.
+- The 44-by-44-pixel button has a visible focus indicator and safe-area placement at mobile and desktop widths.
+- The diagnostics page updates after each mode change. Token samples and form controls remain legible.
+- The `/dev/dark-mode` route returns 404 in a production run.
