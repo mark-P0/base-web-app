@@ -88,15 +88,43 @@ Add `/dev/dark-mode` as an interactive diagnostics and visual showcase page. The
    - The page includes all requested token samples plus representative content, buttons, and form controls. The README documents the mode contract and test route.
    - Manual browser testing remains required. Start the development server and verify all three modes, operating-system changes in system mode, focus indicators, and visual contrast.
 
-5. **Complete and clean up** — `gpt-5.6-luna`, low effort
+5. **Install the DOM test dependency** — `gpt-5.6-luna`, low effort
+   - Add only `@happy-dom/global-registrator` as a development dependency.
+   - Update package metadata and the lockfile. Do not add test setup or tests in this stage.
+   - Stop for user review.
+
+6. **Add the integration test setup** — `gpt-5.6-luna`, medium effort
+   - Register Happy DOM for Bun integration tests.
+   - Add shared DOM cleanup, React `act()` configuration, and a deterministic `matchMedia` test helper.
+   - Add separate unit and integration test commands without adding another test framework.
+   - Replace the integration-test placeholder with the project test boundary and execution instructions.
+   - Keep current tests passing. Run tests, lint, and TypeScript checks. Do not run a build or development server.
+   - Update the plan file with implementation findings.
+   - Stop for user review.
+
+7. **Add dark-mode unit and integration coverage** — `gpt-5.6-terra`, high effort
+   - Add direct unit coverage for document updates and theme-change subscriptions.
+   - Execute the real initialization script in Happy DOM. Verify stored, missing, invalid, explicit, and system modes.
+   - Render the real `ThemeToggle` with its real Button, theme, and document modules.
+   - Verify the complete mode cycle, persistence, root attributes and classes, system-preference handling, shared events, accessible names, icons, status announcements, focus, native-button semantics, storage failures, and Strict Mode remounts.
+   - Render the toggle and development diagnostics together. Verify synchronization after toggle and system-preference changes.
+   - Verify the layout and responsive-positioning markup contracts that do not require computed browser layout.
+   - Keep paint timing, hydration, computed styling, safe-area layout, native touch and keyboard behavior, cross-route behavior, and the production-only 404 in the manual browser checklist.
+   - Update documentation and the plan file with implementation findings.
+   - Run unit and integration tests, lint, and TypeScript checks. Do not run a build or development server.
+   - Stop for user review and manual browser testing.
+
+8. **Complete and clean up** — `gpt-5.6-luna`, low effort
    - Apply corrections found during manual testing.
-   - Run tests, lint, and TypeScript checks.
+   - Run unit and integration tests, lint, and TypeScript checks.
    - Remove `plans/dark-mode-toggle.md` after final acceptance.
    - Stop for final review.
 
 ## Test plan
 
+- Classify a test as integration when it renders UI in a DOM environment or exercises a network boundary. Otherwise, classify it as unit.
 - Store unit tests under `tests/unit/` and integration tests under `tests/integration/`.
+- Use Bun, Happy DOM, React `act()`, and `react-dom/client`. Do not add Playwright, Vitest, Jest, jsdom, or Testing Library.
 - Verify all cycle transitions and invalid-storage fallback.
 - Verify light, dark, and system selections persist after refresh.
 - Verify hard loads show the correct theme without a flash or hydration warning.
@@ -117,7 +145,7 @@ Add `/dev/dark-mode` as an interactive diagnostics and visual showcase page. The
 - Live synchronization between separate browser tabs is out of scope. Other tabs receive the updated mode after reload.
 - The localStorage value contains no sensitive data and remains JavaScript-readable.
 - Deployment is out of scope.
-- No dependency installation stage is needed.
+- Happy DOM supplies browser APIs for integration tests. It does not replace real-browser acceptance checks.
 
 ## Unanswered questions
 
