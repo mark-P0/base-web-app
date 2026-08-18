@@ -1,12 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import { Button } from "@/lib/shadcn/button";
 import { Input } from "@/lib/shadcn/input";
 import { Label } from "@/lib/shadcn/label";
 import { Textarea } from "@/lib/shadcn/textarea";
-
 import { subscribeToThemeChanges, type ThemeChange } from "./document";
 import {
   type EffectiveTheme,

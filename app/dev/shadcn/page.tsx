@@ -1,5 +1,4 @@
 import { ArrowRight, Plus } from "lucide-react";
-
 import { Button } from "@/lib/shadcn/button";
 import { Input } from "@/lib/shadcn/input";
 import { Label } from "@/lib/shadcn/label";

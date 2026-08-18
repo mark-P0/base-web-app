@@ -2,7 +2,6 @@ import { expect, test } from "bun:test";
 import type { ReactNode } from "react";
 import { act, createElement, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-
 import { DarkModeDevelopmentPage } from "../../lib/dark-mode/DarkModeDevelopmentPage.client";
 import { applyThemeToDocument } from "../../lib/dark-mode/document";
 import { ThemeToggle } from "../../lib/dark-mode/ThemeToggle.client";

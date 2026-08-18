@@ -1,6 +1,5 @@
 import { afterEach } from "bun:test";
 import { GlobalRegistrator } from "@happy-dom/global-registrator";
-
 import { resetMatchMedia } from "./match-media";
 
 // Bun preloads this file for `bun run test:integration`.
