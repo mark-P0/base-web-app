@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+
 import "@/lib/css/tailwind.css";
+import { ThemeToggle } from "@/lib/dark-mode/toggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,8 +20,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="font-sans">{children}</body>
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script src="/dark-mode-init.js" />
+      </head>
+      <body className="font-sans">
+        {children}
+        <ThemeToggle />
+      </body>
     </html>
   );
 }
