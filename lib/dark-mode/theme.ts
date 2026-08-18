@@ -7,7 +7,11 @@ export type EffectiveTheme = "light" | "dark";
 const themeModes: readonly ThemeMode[] = ["system", "light", "dark"];
 
 export function isThemeMode(value: string | undefined): value is ThemeMode {
-  return themeModes.includes(value as ThemeMode);
+  const isSupportedThemeMode = themeModes.some(
+    (themeMode) => themeMode === value,
+  );
+
+  return isSupportedThemeMode;
 }
 
 export function parseThemeMode(value: string | undefined) {

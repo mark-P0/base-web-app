@@ -32,6 +32,12 @@ export function applyThemeToDocument(args: {
   return change;
 }
 
+function isThemeChangeEvent(event: Event): event is CustomEvent<ThemeChange> {
+  const isCustomEvent = event instanceof CustomEvent;
+
+  return isCustomEvent;
+}
+
 export function subscribeToThemeChanges(args: {
   callback: (change: ThemeChange) => void;
   document: Document;
@@ -39,9 +45,11 @@ export function subscribeToThemeChanges(args: {
   const { callback, document } = args;
 
   function handleThemeChange(event: Event) {
-    const changeEvent = event as CustomEvent<ThemeChange>;
+    if (!isThemeChangeEvent(event)) {
+      return;
+    }
 
-    callback(changeEvent.detail);
+    callback(event.detail);
   }
 
   document.addEventListener(THEME_CHANGE_EVENT, handleThemeChange);

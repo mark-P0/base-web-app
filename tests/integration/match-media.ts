@@ -61,10 +61,11 @@ function createMediaQueryList(args: { matches: boolean; query: string }) {
   const { matches, query } = args;
   const listeners = new Set<MediaQueryChangeListener>();
   let currentMatches = matches;
+  const initialOnChange: MediaQueryList["onchange"] = null;
 
-  const value = {
+  const partialMediaQueryList = {
     media: query,
-    onchange: null as MediaQueryList["onchange"],
+    onchange: initialOnChange,
     get matches() {
       return currentMatches;
     },
@@ -94,7 +95,10 @@ function createMediaQueryList(args: { matches: boolean; query: string }) {
     dispatchEvent() {
       return true;
     },
-  } as MediaQueryList;
+  };
+
+  // The test double implements the MediaQueryList members used by the tests.
+  const value = partialMediaQueryList as MediaQueryList;
 
   function notify(nextMatches: boolean) {
     currentMatches = nextMatches;

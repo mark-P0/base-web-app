@@ -46,7 +46,7 @@ describe("subscribeToSystemThemeChanges", () => {
     let mode: ThemeMode = "system";
     let listener: ((event: MediaQueryListEvent) => void) | undefined;
     const changes: boolean[] = [];
-    const mediaQueryList = {
+    const partialMediaQueryList = {
       addEventListener(
         type: string,
         callback: (event: MediaQueryListEvent) => void,
@@ -63,7 +63,9 @@ describe("subscribeToSystemThemeChanges", () => {
           listener = undefined;
         }
       },
-    } as MediaQueryList;
+    };
+    // The test double implements only the listener methods used by the subscription.
+    const mediaQueryList = partialMediaQueryList as MediaQueryList;
     const unsubscribe = subscribeToSystemThemeChanges({
       getMode() {
         return mode;
@@ -74,9 +76,9 @@ describe("subscribeToSystemThemeChanges", () => {
       },
     });
 
-    listener?.({ matches: true } as MediaQueryListEvent);
+    listener?.(createMediaQueryListEvent({ matches: true }));
     mode = "dark";
-    listener?.({ matches: false } as MediaQueryListEvent);
+    listener?.(createMediaQueryListEvent({ matches: false }));
     unsubscribe();
 
     expect(changes).toEqual([true]);
@@ -84,9 +86,20 @@ describe("subscribeToSystemThemeChanges", () => {
   });
 });
 
+function createMediaQueryListEvent(args: { matches: boolean }) {
+  const { matches } = args;
+  const partialEvent = { matches };
+
+  // The subscription reads only the matches property from the test event.
+  const event = partialEvent as MediaQueryListEvent;
+
+  return event;
+}
+
 function createFakeDocument() {
   const listeners = new Map<string, Set<EventListener>>();
   const classNames = new Set<string>();
+  const dataset: DOMStringMap = {};
   const documentElement = {
     classList: {
       contains(className: string) {
@@ -102,10 +115,10 @@ function createFakeDocument() {
         return false;
       },
     },
-    dataset: {} as DOMStringMap,
+    dataset,
   };
 
-  return {
+  const partialDocument = {
     addEventListener(type: string, callback: EventListener) {
       const callbacks = listeners.get(type) ?? new Set();
 
@@ -129,5 +142,10 @@ function createFakeDocument() {
         callbacks.delete(callback);
       }
     },
-  } as unknown as Document;
+  };
+
+  // The test double implements only the Document members used by theme functions.
+  const document = partialDocument as unknown as Document;
+
+  return document;
 }
