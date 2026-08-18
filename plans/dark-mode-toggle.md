@@ -53,6 +53,12 @@ Add `/dev/dark-mode` as an interactive diagnostics and visual showcase page. The
    - Theme unit tests are in `tests/unit/dark-mode/`. Reserve `tests/integration/` for browser or multi-module coverage.
    - Import modules directly from `lib/dark-mode`. Do not reintroduce a barrel export.
 
+   Stage 3 implementation findings:
+   - `ThemeToggle` is a Client Component in `lib/dark-mode/toggle.tsx`. It stays hidden until it reads and reapplies the initialized document mode.
+   - The root layout stays static. It mounts the non-deferred `/dark-mode-init.js` script in `<head>` and uses `suppressHydrationWarning` on `<html>`.
+   - The floating target is 44 by 44 pixels. It uses 16-pixel mobile and 24-pixel desktop safe-area offsets.
+   - The toggle reapplies the theme during Strict Mode remounts, reacts to system-preference changes, and announces user-selected modes to screen readers.
+
 3. **Integrate the global toggle** — `gpt-5.6-terra`, high effort
    - Add a small Client Component under `lib/dark-mode`.
    - Reuse the existing shadcn button and Lucide icons.
