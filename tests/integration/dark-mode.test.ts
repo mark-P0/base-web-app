@@ -311,7 +311,9 @@ async function render(component: ReactNode) {
     container.remove();
   }
 
-  return { container, unmount };
+  const renderedComponent = { container, unmount };
+
+  return renderedComponent;
 }
 
 function runInitializationScript() {

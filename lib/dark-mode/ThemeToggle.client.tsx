@@ -37,7 +37,9 @@ function useThemeMode() {
     setMode(nextMode);
   }
 
-  return { changeThemeMode, mode };
+  const themeMode = { changeThemeMode, mode };
+
+  return themeMode;
 }
 
 function useInitializeThemeMode(args: {

@@ -41,7 +41,9 @@ export function installMatchMedia(args: { matches?: boolean } = {}) {
     resetMatchMedia();
   }
 
-  return { restore, setMatches };
+  const matchMediaControl = { restore, setMatches };
+
+  return matchMediaControl;
 }
 
 /**
@@ -120,5 +122,7 @@ function createMediaQueryList(args: { matches: boolean; query: string }) {
     value.onchange?.call(value, event);
   }
 
-  return { notify, value };
+  const mediaQueryList = { notify, value };
+
+  return mediaQueryList;
 }

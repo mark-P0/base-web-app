@@ -95,9 +95,13 @@ function getRawStorageValue() {
       return value;
     }
 
-    return "(missing)";
+    const missingValue = "(missing)";
+
+    return missingValue;
   } catch {
-    return "(unavailable)";
+    const unavailableValue = "(unavailable)";
+
+    return unavailableValue;
   }
 }
 
@@ -111,6 +115,14 @@ function getModeDescription(mode: ThemeMode) {
   }
 
   return "Forces the dark theme.";
+}
+
+function getOperatingSystemLabel(prefersDark: boolean | undefined) {
+  if (prefersDark) {
+    return "Dark";
+  }
+
+  return "Light";
 }
 
 function DiagnosticValue(props: { label: string; value: string }) {
@@ -129,6 +141,9 @@ function DiagnosticValue(props: { label: string; value: string }) {
 export function DarkModeDevelopmentPage() {
   const diagnostics = useThemeDiagnostics();
   const selectedMode = diagnostics?.mode ?? "system";
+  const operatingSystemLabel = getOperatingSystemLabel(
+    diagnostics?.prefersDark,
+  );
 
   return (
     <main className="min-h-screen bg-muted/30 px-4 py-10 sm:px-6 lg:px-8">
@@ -163,7 +178,7 @@ export function DarkModeDevelopmentPage() {
             />
             <DiagnosticValue
               label="Operating system"
-              value={diagnostics?.prefersDark ? "Dark" : "Light"}
+              value={operatingSystemLabel}
             />
             <DiagnosticValue
               label="localStorage theme"

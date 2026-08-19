@@ -1,8 +1,8 @@
-export const THEME_STORAGE_KEY = "theme";
-export const THEME_CHANGE_EVENT = "dark-mode-change";
-
 export type ThemeMode = "system" | "light" | "dark";
 export type EffectiveTheme = "light" | "dark";
+
+export const THEME_STORAGE_KEY = "theme";
+export const THEME_CHANGE_EVENT = "dark-mode-change";
 
 const themeModes: readonly ThemeMode[] = ["system", "light", "dark"];
 

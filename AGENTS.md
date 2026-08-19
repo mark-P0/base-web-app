@@ -43,9 +43,12 @@
 - Write readable code. Use clear names, sorted imports where practical, and avoid dense one-line code. Prefer assigning a return value to a variable before returning it.
 
 - Functions: Prefer returning variables instead of expressions directly
+    - Notable exceptions:
+        - React JSX, effect cleanup functions, variant components
+        - Function guard clauses, early returns
+        - Map-like and enum-like functions whose main purpose is to return a known set of values
 - Prefer NOT using unclear variable names, e.g. single characters, abbreviations
 	- If unavoidable, they must have a clear, documented reason why
-- Try to sort imports of source code files
 - Prefer NOT writing one-liners
 	- Readability is preferred over concision and cleverness
 

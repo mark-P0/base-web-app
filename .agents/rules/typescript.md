@@ -4,7 +4,10 @@
 - Consider the pattern `x satisfies never` as debug code. It serves as marker for lines that need to be dealt with later so that the type checker can notify about it
 - Functions with single object argument: Prefer `args` name. Define type inline with function definition. Destructure `args` in function body.
 - In tab auto-complete: append `satisfies never` when completing console expressions, e.g. `console.warn`, `console.debug`
-- Prefer function declarations (function doSomething() {}) over arrow functions (const doSomething = () => {})
+- Prefer function declarations (`function doSomething() {}`) over arrow functions (`const doSomething = () => {}`)
+  - Arrow functions are preferred in cases like the following:
+    - As callback args, e.g. in `Array.map()`
+    - React effect cleanup function
 - Prefer actual if/else over ternaries. If verbose, wrap if/else sequence in an arrow function, maybe even an IIFE.
 - Prefer inferring function return type over explicit hint. If type hinting is required, type hint the returned variable instead
 - Prefer implicit falsy checks

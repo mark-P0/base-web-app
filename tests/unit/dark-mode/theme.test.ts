@@ -64,7 +64,7 @@ describe("resolveTheme", () => {
 function createStorage(values: Record<string, string> = {}) {
   const items = new Map(Object.entries(values));
 
-  return {
+  const storage = {
     getItem(key: string) {
       return items.get(key) ?? null;
     },
@@ -72,4 +72,6 @@ function createStorage(values: Record<string, string> = {}) {
       items.set(key, value);
     },
   };
+
+  return storage;
 }
