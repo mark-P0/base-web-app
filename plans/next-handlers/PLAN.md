@@ -3,7 +3,8 @@
 ## Status
 
 - Stage 1: Complete.
-- Next stage: Stage 2 — Add shared UI and production handlers.
+- Stage 2: Complete.
+- Next stage: Stage 3 — Add real development triggers.
 - Update this section at the end of each stage.
 
 ## Summary
@@ -56,6 +57,16 @@ Development routes:
 - Keep the required `'use client'` directives in `error.tsx` and `global-error.tsx`, despite the normal filename convention.
 - Add integration tests for semantics, actions, retry behavior, safe digest display, and loading accessibility.
 - Update the durable plan and stop for user review.
+
+Completed: Added shared status, loading, and client error UI in
+`lib/next-handlers/`. Added root special-file adapters and integration tests.
+The global error document has standalone styles, a system font stack, theme
+initialization, and a title. Error UI shows only a supplied digest, never an
+error message.
+
+Review update: Embedded conditional rendering uses Boolean `&&` expressions.
+Global error styles now use a dedicated stylesheet and reuse
+`/dark-mode-init.js`.
 
 ### Stage 3 — Add real development triggers
 
