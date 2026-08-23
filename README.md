@@ -46,6 +46,20 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Development previews are available under [http://localhost:3000/dev](http://localhost:3000/dev) while the application runs in the development environment.
 
+## Environment variables
+
+This base project does not require application environment variables.
+
+When a derived project adds an environment variable:
+
+- Keep local values and secrets in `.env.local` at the repository root.
+- Never commit secret values.
+- Add the variable name to `.env.example` with an empty or safe example value.
+- Document whether the variable is required and where the application uses it.
+- Use the `NEXT_PUBLIC_` prefix only for values that are safe to expose to browsers. Next.js includes these values in the client bundle at build time.
+
+Configure production values through the selected deployment platform. Keep `.env.example` current so that developers and coding agents can identify the required configuration without access to secrets.
+
 ## Available commands
 
 | Command | Purpose |
