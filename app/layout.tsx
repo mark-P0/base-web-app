@@ -7,7 +7,14 @@ import { cn } from "@/lib/shadcn/utils";
 import { geistMono, geistSans } from "@/lib/styles/fonts";
 
 export const metadata: Metadata = {
-  title: "Hello, world!",
+  // Derived projects must replace these values with their application identity.
+  applicationName: "Base Web App",
+  description:
+    "A reusable Next.js foundation for agent-developed web applications.",
+  title: {
+    default: "Base Web App",
+    template: "%s | Base Web App",
+  },
 };
 
 function GlobalErrorPreviewTriggerContainer() {

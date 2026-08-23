@@ -1,4 +1,9 @@
+import type { Metadata } from "next";
 import { DevelopmentPreviewPage } from "@/lib/next-handlers/DevelopmentPreviewPage";
+
+export const metadata: Metadata = {
+  title: "Global Error Preview",
+};
 
 export default function GlobalErrorPreviewRoute() {
   return (

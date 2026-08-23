@@ -1,8 +1,13 @@
 import { ArrowRight, Plus } from "lucide-react";
+import type { Metadata } from "next";
 import { Button } from "@/lib/shadcn/button";
 import { Input } from "@/lib/shadcn/input";
 import { Label } from "@/lib/shadcn/label";
 import { Textarea } from "@/lib/shadcn/textarea";
+
+export const metadata: Metadata = {
+  title: "UI Components",
+};
 
 const buttonVariants = [
   "default",

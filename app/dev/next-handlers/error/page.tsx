@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import { ClientRenderErrorTrigger } from "@/lib/next-handlers/ClientRenderErrorTrigger.client";
 import { DevelopmentPreviewPage } from "@/lib/next-handlers/DevelopmentPreviewPage";
+
+export const metadata: Metadata = {
+  title: "Application Error Preview",
+};
 
 export default function ErrorPreviewRoute() {
   return (
