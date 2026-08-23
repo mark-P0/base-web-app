@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Base Web App
 
-## Getting Started
+`base-web-app` is the common starting point for future web applications. It provides a consistent project structure, development tools, reusable application features, and instructions for agentic development.
 
-First, run the development server:
+The current application stack uses Next.js, React, TypeScript, Tailwind CSS, and Bun. MongoDB is the intended database for applications that need persistent data. This repository does not include a MongoDB integration yet.
+
+## Purpose
+
+Use this repository as a base when you start a new web application. Each derived project can focus on its product features while it keeps the same foundation for code organization, testing, diagnostics, and agent collaboration.
+
+This repository is also a place to improve that shared foundation. Add a feature here only when it is useful across multiple applications. Add product-specific work to the derived project instead.
+
+## Included foundation
+
+- Next.js App Router with React and TypeScript
+- Tailwind CSS and reusable shadcn-based UI primitives
+- Dark mode support with a development preview and tests
+- Standard Next.js loading, error, global error, and not-found handlers
+- Development-only pages for visual previews and diagnostics
+- Biome for linting and formatting
+- Bun for package management and tests
+- Happy DOM support for integration tests
+- Repository instructions for coding agents
+
+## Requirements
+
+- [Bun](https://bun.sh/) 1.3.14 or a compatible version
+
+The repository records its Bun version in `package.json`.
+
+## Get started
+
+Install the dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Start the development server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+bun run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Learn More
+Development previews are available under [http://localhost:3000/dev](http://localhost:3000/dev) while the application runs in the development environment.
 
-To learn more about Next.js, take a look at the following resources:
+## Available commands
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Command | Purpose |
+| --- | --- |
+| `bun run dev` | Start the Next.js development server. |
+| `bun run build` | Create a production build. |
+| `bun run start` | Start the production server after a build. |
+| `bun run lint` | Check the repository with Biome. |
+| `bun run format` | Format supported files with Biome. |
+| `bun run test:unit` | Run unit tests with the Bun test runner. |
+| `bun run test:integration` | Run integration tests with the Bun test runner and Happy DOM. |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project structure
 
-## Deploy on Vercel
+```text
+app/                  Next.js routes, layouts, metadata, and framework handlers
+app/dev/              Development-only preview and diagnostic routes
+docs/                 Long-lived feature documentation
+lib/                  Application features, shared UI, styles, and utilities
+public/               Static files served by Next.js
+tests/unit/           Unit tests
+tests/integration/    Integration tests and their shared setup
+.agents/rules/        Detailed instructions for coding agents
+AGENTS.md             Repository-wide instructions for coding agents
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Keep most feature code in a matching directory under `lib/`. Keep `app/` focused on routing and other Next.js-specific integration. Add a `/dev/<feature-name>` page when a feature needs a visual preview or diagnostics. Add long-lived feature documentation under `docs/<feature-name>/`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Start a new project from this base
+
+1. Create a new repository or copy this repository without its Git history.
+2. Change the package name and other project identity values.
+3. Replace the root application metadata and home page content.
+4. Add the environment variables and external services that the application needs.
+5. Remove example features that the application will not use.
+6. Keep shared improvements in sync with this base when they apply to other projects.
+
+Before deployment, review at least these values:
+
+- Project name and package metadata
+- Page title, description, icons, and social metadata
+- Home page content
+- Environment variables and secrets
+- Database configuration
+- Deployment configuration
+- License and repository links
+
+## Agentic development
+
+This repository is designed for work by humans and coding agents. `README.md` is the human guide to the project. `AGENTS.md` and the files under `.agents/rules/` contain mandatory instructions for coding agents.
+
+When you request agent work, describe the required result, constraints, and acceptance criteria. Review the agent's file changes and verification results before you accept the work. Keep product decisions and durable feature behavior in human-readable documentation instead of relying on chat history.
+
+## Testing and quality checks
+
+Add unit tests for isolated logic. Add integration tests for behavior that needs rendering or significant setup. Use the Bun test runner for both test types.
+
+Before you submit a change, run the applicable checks:
+
+```bash
+bun run lint
+bun run test:unit
+bun run test:integration
+```
+
+Run `bun run format` when files need formatting. Run a production build as a separate release or deployment check.
+
+## Feature documentation
+
+The current feature guides are:
+
+- [Dark mode](docs/dark-mode/usage.md)
+- [Next.js handlers](docs/next-handlers/usage.md)
+- [shadcn UI primitives](docs/shadcn/usage.md)
+
+## Deployment
+
+Next.js supports several deployment targets. Select a target that supports the application runtime and its required services. Configure MongoDB and other external services in the derived project when those services are required.
