@@ -72,7 +72,11 @@ tests/integration/    Integration tests and their shared setup
 AGENTS.md             Repository-wide instructions for coding agents
 ```
 
-Keep most feature code in a matching directory under `lib/`. Keep `app/` focused on routing and other Next.js-specific integration. Add a `/dev/<feature-name>` page when a feature needs a visual preview or diagnostics. Add long-lived feature documentation under `docs/<feature-name>/`.
+## Feature development
+
+Keep most feature code in a matching directory under `lib/`. Import the feature into `app/` where Next.js routes and framework integration need it.
+
+Each feature must have a corresponding `/dev/<feature-name>` page with the applicable visual previews, demonstrations, and diagnostics. Add long-lived documentation under `docs/<feature-name>/`. Add applicable unit or integration tests under `tests/`.
 
 ## Start a new project from this base
 

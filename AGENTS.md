@@ -1,41 +1,20 @@
 # Agent Instructions
 
+## Required project context
 
-## Always-on Rules
+Before each task, read `README.md` completely. Treat the README as required project context. Follow its project purpose, technology stack, architecture, workflows, and feature requirements.
 
-> Agents must follow these rules at all times
+The README is the source for human-facing project knowledge. This file extends the README with mandatory agent behavior. Do not copy README content into this file.
+
+If the README and this file conflict, report the conflict to the user and ask for direction.
+
+## Always-on rules
+
+> Agents must follow these rules at all times.
 
 - Use ASD-STE100 Simplified Technical English. Use active voice, simple tenses, exact technical names, and one idea per sentence. Use the same word for the same idea. Do not use idioms, slang, or unnecessary jargon. Follow industry conventions and standards.
 - For a question-only request, answer it. Do not modify files.
 - Challenge instructions that conflict with sound engineering practice. Follow them if the user confirms the direction.
-
-### General file structure
-
-- `app/` dir
-    - Next.js App router
-    - As much as possible, should only contain Next.js-specific and routing-related files
-    - Features should be imported from the `lib/` dir
-
-- `lib/` dir
-    - Contains feature work in corresponding sub-dirs
-        - e.g. `/lib/dark-mode/` contain work related to theming and dark mode toggle
-    - As much as possible, the bulk of feature work should be written under this dir
-
-- `tests/` dir
-    - Tests and related files should be written here
-    - Main sub-dirs include `/tests/unit/` for unit tests, and `/tests/integration/` for integration tests
-
-- `docs/` dir
-    - Long-lived documentation of features should be written here
-    - General structure is `/docs/<feature-title>/<doc-type>.md`
-
-### Feature work
-
-- As much as possible, write the bulk of a feature's logic in a corresponding `lib/` sub-dir
-    - Import these in the `app/` files wherever needed
-- Features must have visual previews, demonstrations, and diagnostics in a corresponding `/dev/<feature-title>` page
-- As much as possible, feature work must include appropriate documentation
-- As much as possible, feature work must include appropriate unit and/or integration tests
 
 ### Any source code change
 
@@ -74,13 +53,10 @@ When writing code, go through each of them, and STOP at the first item that hold
 
 ### Tests
 
-- As much as possible, agents must include unit and integration tests with their work.
-- Use Bun's built-in test runner
-    - Do not use other test runners like Vitest, Jest
-    - Follow Bun's official docs regarding tests as much as possible, e.g. the use of Happy DOM for UI testing
-- Test that need significant setup are integration tests, e.g. rendering, networking
-    - Otherwise they should be unit tests
-- Write test files in TypeScript
+- Treat the README test guidance as mandatory for source code changes.
+- Do not add or use a different test runner.
+- Follow the official documentation for the test tools named in the README.
+- Write test files in TypeScript.
 
 #### Work verifications
 
@@ -91,7 +67,7 @@ When writing code, go through each of them, and STOP at the first item that hold
     - Prefer asking the user to start a dev server themselves, then resume the agent for checking whatever they need to check
 
 
-## Conditional Rules
+## Conditional rules
 
 > Agents must find all sub-sections and rule files related to their current task and follow the rules listed in them
 
