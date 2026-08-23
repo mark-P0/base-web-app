@@ -5,7 +5,8 @@
 - Stage 1: Complete.
 - Stage 2: Complete.
 - Stage 3: Complete.
-- Next stage: Stage 4 — Document and verify.
+- Stage 4: Complete.
+- Next stage: Stage 5 — Remove the durable plan.
 - Update this section at the end of each stage.
 
 ## Summary
@@ -101,6 +102,14 @@ client trigger activation.
 - Do not run a build or development server.
 - Ask the user to run `bun dev` and verify all five development routes, retry recovery, navigation, responsive layout, and themes.
 - Update the durable plan and stop for user review.
+
+Completed: Added `docs/next-handlers/usage.md` with handler scope and
+hierarchy, development preview instructions, safe error-reporting guidance,
+and experimental-handler exclusions. Reviewed the feature against repository,
+React, TypeScript, accessibility, and local Next.js 16.3.1 guidance. Formatted
+the global error component to resolve an existing line-ending lint failure.
+`bun run lint`, `bun run test:unit`, `bun run test:integration`, and
+`bun x tsc --noEmit` pass. A build and development server were not run.
 
 ### Stage 5 — Remove the durable plan
 
