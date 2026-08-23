@@ -1,6 +1,7 @@
 {
   "name": "base-web-app",
   "version": "0.1.0",
+  "description": "Reusable Next.js foundation for agent-developed web applications.",
   "private": true,
   "scripts": {
     "dev": "next dev",
