@@ -30,7 +30,7 @@ import { Textarea } from "@/lib/shadcn/textarea";
 
 The `components.json` file configures the `new-york` style, neutral base color, CSS variables, and Lucide icons.
 
-The `lib/css/tailwind.css` file imports `lib/shadcn/styles.css`. The root layout imports the Tailwind stylesheet once for all routes.
+The `lib/styles/tailwind.css` file imports `lib/shadcn/styles.css`. The root layout imports the Tailwind stylesheet once for all routes.
 
 ## Development preview
 
