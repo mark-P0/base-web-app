@@ -1,7 +1,7 @@
 import { expect, test } from "bun:test";
-import type { ReactNode } from "react";
-import { act } from "react";
+import { act, Component, type ReactNode } from "react";
 import { createRoot } from "react-dom/client";
+import { ClientRenderErrorTrigger } from "../../lib/next-handlers/ClientRenderErrorTrigger.client";
 import { ErrorPage } from "../../lib/next-handlers/ErrorPage.client";
 import { LoadingIndicator } from "../../lib/next-handlers/LoadingIndicator";
 import { StatusPage } from "../../lib/next-handlers/StatusPage";
@@ -89,6 +89,57 @@ test("announces loading state to assistive technology", async () => {
     await rendered.unmount();
   }
 });
+
+test("activates a client render error only after user activation", async () => {
+  const rendered = await render(
+    <RenderErrorBoundary>
+      <ClientRenderErrorTrigger previewName="application" />
+    </RenderErrorBoundary>,
+  );
+
+  try {
+    const triggerButton =
+      rendered.container.querySelector<HTMLButtonElement>("button");
+
+    expect(rendered.container.textContent).toContain(
+      "Trigger application error",
+    );
+
+    await act(async () => {
+      triggerButton?.click();
+    });
+
+    expect(rendered.container.textContent).toContain(
+      "application preview error",
+    );
+  } finally {
+    await rendered.unmount();
+  }
+});
+
+class RenderErrorBoundary extends Component<
+  { children: ReactNode },
+  { error: Error | null }
+> {
+  state: { error: Error | null } = { error: null };
+
+  static getDerivedStateFromError(error: Error) {
+    const nextState = { error };
+
+    return nextState;
+  }
+
+  render() {
+    const { children } = this.props;
+    const { error } = this.state;
+
+    if (error) {
+      return <p>{error.message}</p>;
+    }
+
+    return children;
+  }
+}
 
 async function render(component: ReactNode) {
   const container = document.createElement("div");

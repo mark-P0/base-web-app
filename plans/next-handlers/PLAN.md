@@ -4,7 +4,8 @@
 
 - Stage 1: Complete.
 - Stage 2: Complete.
-- Next stage: Stage 3 — Add real development triggers.
+- Stage 3: Complete.
+- Next stage: Stage 4 — Document and verify.
 - Update this section at the end of each stage.
 
 ## Summary
@@ -78,6 +79,17 @@ Global error styles now use a dedicated stylesheet and reuse
 - Mount the global trigger from the root layout only in development. Keep it inactive outside its exact preview route.
 - Add tests for trigger activation and production guards.
 - Update the durable plan and stop for user review.
+
+Completed: Added the `/dev/next-handlers` preview index and four dedicated
+routes. The loading route waits at request time with `connection()` and a
+two-second delay. The error triggers throw during client rendering after user
+activation. The global trigger is mounted by the root layout only in
+development and runs only on its exact preview route. Environment checks are
+kept in `lib/environment/`. Development preview UI and timing logic are kept
+in `lib/next-handlers/`; route files are thin adapters. The loading preview
+uses a full page navigation so its streaming fallback is visible. Unit tests
+cover route isolation and development guards. An integration test covers
+client trigger activation.
 
 ### Stage 4 — Document and verify
 
