@@ -1,9 +1,12 @@
 import { notFound } from "next/navigation";
+import { isDevelopmentEnvironment } from "@/lib/environment/is-development-environment";
 
 export default function DevelopmentLayout(props: LayoutProps<"/dev">) {
   const { children } = props;
 
-  if (process.env.NODE_ENV !== "development") {
+  const isDevelopment = isDevelopmentEnvironment();
+
+  if (!isDevelopment) {
     notFound();
   }
 

@@ -30,6 +30,8 @@
 		- If callbacks are brief enough, they may be even defined inline with the markup
 	- Markup. At the very last because components return markup
 		- Conditional rendering should also be done as last as possible
+		- For embedded conditional rendering, prefer the `&&` pattern with Boolean values
+		- Do not use the `&&` pattern with possibly falsy values directly as those might be rendered accidentally, e.g. `0 && <Component />` would render `0`. Prefer casting those to Boolean instead.
 - Component structure of components with variants
 	- As much as possible these components should be kept light. Ideally they will only take props and conditionally render based on those props. But if they must contain internal logic as well, the general component structure should still be applied
 	- Each variant should be accounted for with an `if` call
@@ -52,7 +54,7 @@ function Component(props: {
 
 	const hook1 = useLibraryHook()
 	const hook2 = useApplicationHook()
-	const [state, setState] = useState()
+	const [state, setState] = useState(false)
 
 	useEffect(() => {
 		// do something
@@ -65,10 +67,16 @@ function Component(props: {
 	}
 
 	if (someCondition) {
-		return ANOTHER_MARKUP
+		return <p>{prop1} is unavailable.</p>
 	}
 
-	return MARKUP
+	return (
+		<section>
+			<h2>{prop1}</h2>
+			<p>Value: {derived1}</p>
+			{state && <p>State is active.</p>}
+		</section>
+	)
 }
 ```
 
