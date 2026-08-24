@@ -37,7 +37,7 @@ Apply this protocol after every stage, including audit and plan removal:
 
 ## Current state
 
-- Completed through: Stage 5.
+- Completed through: Stage 6.
 - Stage 1 result: durable scope, interfaces, stages, checks, and assumptions recorded.
 - Stage 2 result: exact Better Auth, MongoDB adapter, native MongoDB driver, and `server-only` dependencies installed.
 - Better Auth includes other database adapters and Kysely transitively. Application code must use only the MongoDB adapter and native MongoDB driver.
@@ -47,7 +47,11 @@ Apply this protocol after every stage, including audit and plan removal:
 - Stage 5 result: `auth` uses the native MongoDB adapter with client-backed transactions and joins. Email/password and anonymous auth are enabled. Google is present only for a complete credential pair.
 - Stage 5 result: `transferAnonymousUserData()` runs before Better Auth removes a linked guest. Its base implementation is a documented no-op for derived applications to replace.
 - Stage 5 result: the catch-all Route Handler exports `GET` and `POST`; it handles Google callbacks. The same-origin React `authClient` includes the anonymous client plugin.
-- Next: add the auth development hub, shared session UI, actions, navigation, status, and safe diagnostics.
+- Stage 6 result: `/dev/auth` shows safe live session diagnostics and links to all authentication demonstrations and the protected page. An explicit safe mapping prevents session tokens and private fields from entering the rendered diagnostic model.
+- Stage 6 result: permanent users can sign out. Anonymous users can delete the guest and end its session through the anonymous plugin endpoint.
+- Stage 6 result: authentication development UI lives under `lib/auth/development/`. Better Auth integration code remains under `lib/better-auth/`.
+- Stage 6 result: shared authentication development navigation, session details, actions, pending state, success status, and sanitized error components are ready for later method pages. Pending and failed session loads do not expose stale details or actions.
+- Next: add the anonymous authentication development page and reuse the Stage 6 session and action components.
 
 ## Stages
 
