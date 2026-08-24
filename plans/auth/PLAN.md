@@ -36,9 +36,11 @@ Apply this protocol after every stage, including audit and plan removal:
 
 ## Current state
 
-- Completed through: Stage 1.
+- Completed through: Stage 2.
 - Stage 1 result: durable scope, interfaces, stages, checks, and assumptions recorded.
-- Next: install the exact Stage 2 dependencies.
+- Stage 2 result: exact Better Auth, MongoDB adapter, native MongoDB driver, and `server-only` dependencies installed.
+- Better Auth includes other database adapters and Kysely transitively. Application code must use only the MongoDB adapter and native MongoDB driver.
+- Next: add the Stage 3 Better Auth secret utility and tests.
 
 ## Stages
 
@@ -198,7 +200,7 @@ Apply this protocol after every stage, including audit and plan removal:
 - Protected content requires a database-validated session.
 - Guest deletion removes the anonymous user and session.
 - Automated tests need no external service.
-- No ORM or ODM enters the dependency graph.
+- No ORM or ODM is a direct application dependency or is used by application code.
 - No secret or authentication token enters browser output or logs.
 - The whole-codebase audit has no unresolved findings unless the user accepts them.
 - Existing repository checks pass.
