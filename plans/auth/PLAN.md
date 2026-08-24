@@ -10,7 +10,7 @@ Add reusable Better Auth support for anonymous, Google, and email/password authe
 - Server export: `auth`.
 - Browser export: `authClient`, with the anonymous client plugin.
 - Secret utility: `generateBetterAuthSecret(): string` in `lib/better-auth/secret.ts`.
-- Secret command: `bun run auth:secret`; print one 256-bit base64url value. Never write an environment file.
+- Secret command: `bun lib/better-auth/secret.ts`; print one 256-bit base64url value. Never write an environment file.
 - Required environment variables: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `MONGODB_URI`, `MONGODB_DATABASE_NAME`.
 - Optional pair: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`. Disable Google when both are absent. Reject partial configuration.
 - Access all environment variables through modules under `lib/environment/`. Do not read `process.env` elsewhere.
@@ -36,11 +36,12 @@ Apply this protocol after every stage, including audit and plan removal:
 
 ## Current state
 
-- Completed through: Stage 2.
+- Completed through: Stage 3.
 - Stage 1 result: durable scope, interfaces, stages, checks, and assumptions recorded.
 - Stage 2 result: exact Better Auth, MongoDB adapter, native MongoDB driver, and `server-only` dependencies installed.
 - Better Auth includes other database adapters and Kysely transitively. Application code must use only the MongoDB adapter and native MongoDB driver.
-- Next: add the Stage 3 Better Auth secret utility and tests.
+- Stage 3 result: `generateBetterAuthSecret()` and direct execution with Bun generate a 256-bit base64url value without changing files.
+- Next: add centralized environment access and the native MongoDB foundation.
 
 ## Stages
 
@@ -67,8 +68,7 @@ Apply this protocol after every stage, including audit and plan removal:
 - Add `lib/better-auth/secret.ts` with `generateBetterAuthSecret()`.
 - Use the standard-library cryptographic random generator for 32 random bytes. Encode as base64url.
 - Add concise JSDoc for entropy, format, intended environment variable, and safe handling.
-- Support direct Bun execution. Print only the generated value to standard output.
-- Add `bun run auth:secret` to `package.json`.
+- Support `bun lib/better-auth/secret.ts`. Print only the generated value with `console.log()`.
 - Add TypeScript unit tests for format, decoded byte length, and independent results.
 
 ### 4. Add environment and MongoDB foundations
@@ -190,7 +190,7 @@ Apply this protocol after every stage, including audit and plan removal:
 
 ## Acceptance tests
 
-- `bun run auth:secret` prints one valid 256-bit base64url secret and changes no file.
+- `bun lib/better-auth/secret.ts` prints one valid 256-bit base64url secret and changes no file.
 - All environment reads occur under `lib/environment/`.
 - All three authentication methods create valid MongoDB-backed sessions.
 - Anonymous users can upgrade through email or Google.
