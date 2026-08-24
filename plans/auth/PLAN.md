@@ -37,14 +37,17 @@ Apply this protocol after every stage, including audit and plan removal:
 
 ## Current state
 
-- Completed through: Stage 4.
+- Completed through: Stage 5.
 - Stage 1 result: durable scope, interfaces, stages, checks, and assumptions recorded.
 - Stage 2 result: exact Better Auth, MongoDB adapter, native MongoDB driver, and `server-only` dependencies installed.
 - Better Auth includes other database adapters and Kysely transitively. Application code must use only the MongoDB adapter and native MongoDB driver.
 - Stage 3 result: `generateBetterAuthSecret()` and direct execution with Bun generate a 256-bit base64url value without changing files.
 - Stage 4 result: `serverEnvironment` validates required server values and optional Google credentials. CI production builds use non-secret placeholders only for missing required values.
 - Stage 4 result: `mongoClient` is cached on `globalThis`, and `database` selects `MONGODB_DATABASE_NAME` without opening a connection during module initialization.
-- Next: add the Better Auth backend, catch-all handler, browser client, and anonymous data-transfer extension point.
+- Stage 5 result: `auth` uses the native MongoDB adapter with client-backed transactions and joins. Email/password and anonymous auth are enabled. Google is present only for a complete credential pair.
+- Stage 5 result: `transferAnonymousUserData()` runs before Better Auth removes a linked guest. Its base implementation is a documented no-op for derived applications to replace.
+- Stage 5 result: the catch-all Route Handler exports `GET` and `POST`; it handles Google callbacks. The same-origin React `authClient` includes the anonymous client plugin.
+- Next: add the auth development hub, shared session UI, actions, navigation, status, and safe diagnostics.
 
 ## Stages
 
