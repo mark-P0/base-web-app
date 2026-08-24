@@ -22,6 +22,7 @@ Add reusable Better Auth support for anonymous, Google, and email/password authe
 - Keep Better Auth password and session defaults.
 - Exclude email verification, password recovery, public auth pages, global route protection, ORMs, and ODMs.
 - Require MongoDB Atlas or a replica set. Reuse one `MongoClient` per process.
+- All stages: declare functions in dependency order. Declare each function before its first use, including private helpers.
 
 ## Stage completion protocol
 
@@ -36,12 +37,14 @@ Apply this protocol after every stage, including audit and plan removal:
 
 ## Current state
 
-- Completed through: Stage 3.
+- Completed through: Stage 4.
 - Stage 1 result: durable scope, interfaces, stages, checks, and assumptions recorded.
 - Stage 2 result: exact Better Auth, MongoDB adapter, native MongoDB driver, and `server-only` dependencies installed.
 - Better Auth includes other database adapters and Kysely transitively. Application code must use only the MongoDB adapter and native MongoDB driver.
 - Stage 3 result: `generateBetterAuthSecret()` and direct execution with Bun generate a 256-bit base64url value without changing files.
-- Next: add centralized environment access and the native MongoDB foundation.
+- Stage 4 result: `serverEnvironment` validates required server values and optional Google credentials. CI production builds use non-secret placeholders only for missing required values.
+- Stage 4 result: `mongoClient` is cached on `globalThis`, and `database` selects `MONGODB_DATABASE_NAME` without opening a connection during module initialization.
+- Next: add the Better Auth backend, catch-all handler, browser client, and anonymous data-transfer extension point.
 
 ## Stages
 
