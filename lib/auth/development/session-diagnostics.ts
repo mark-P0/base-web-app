@@ -9,6 +9,17 @@ export type AuthSessionDiagnostics = {
 
 export type AuthSessionKind = "anonymous" | "permanent" | "signed-out";
 
+export type AuthSessionDiagnosticsInput = {
+  session: { expiresAt: Date };
+  user: {
+    email: string;
+    emailVerified: boolean;
+    id: string;
+    isAnonymous?: boolean | null;
+    name: string;
+  };
+};
+
 function formatSessionExpiry(expiresAt: Date) {
   if (Number.isNaN(expiresAt.getTime())) {
     return "Unavailable";
@@ -18,18 +29,7 @@ function formatSessionExpiry(expiresAt: Date) {
 }
 
 export function createAuthSessionDiagnostics(args: {
-  session: {
-    session: {
-      expiresAt: Date;
-    };
-    user: {
-      email: string;
-      emailVerified: boolean;
-      id: string;
-      isAnonymous?: boolean | null;
-      name: string;
-    };
-  } | null;
+  session: AuthSessionDiagnosticsInput | null;
 }) {
   const { session } = args;
 

@@ -2,7 +2,7 @@
 
 `base-web-app` is the common starting point for future web applications. It provides a consistent project structure, development tools, reusable application features, and instructions for agentic development.
 
-The current application stack uses Next.js, React, TypeScript, Tailwind CSS, and Bun. MongoDB is the intended database for applications that need persistent data. This repository does not include a MongoDB integration yet.
+The current application stack uses Next.js, React, TypeScript, Tailwind CSS, Bun, Better Auth, and MongoDB. MongoDB supports authentication persistence through the native MongoDB driver.
 
 ## Purpose
 
@@ -17,6 +17,7 @@ This repository is also a place to improve that shared foundation. Add a feature
 - Dark mode support with a development preview and tests
 - Standard Next.js loading, error, global error, and not-found handlers
 - Development-only pages for visual previews and diagnostics
+- Better Auth support for anonymous, Google, and email/password authentication
 - Biome for linting and formatting
 - Bun for package management and tests
 - Happy DOM support for integration tests
@@ -138,6 +139,7 @@ The current feature guides are:
 - [Dark mode](docs/dark-mode/usage.md)
 - [Next.js handlers](docs/next-handlers/usage.md)
 - [shadcn UI primitives](docs/shadcn/usage.md)
+- [Authentication](docs/auth/usage.md)
 
 ## Deployment
 

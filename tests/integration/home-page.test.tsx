@@ -16,7 +16,8 @@ test("presents the repository as a reusable application foundation", async () =>
 
     expect(heading?.textContent).toBe("Base Web App");
     expect(container.textContent).toContain("Reusable application foundation");
-    expect(container.textContent).toContain("Intended database");
+    expect(container.textContent).toContain("Database foundation");
+    expect(container.textContent).toContain("reusable Better Auth sessions");
     expect(container.textContent).not.toContain("Hello, world!");
   } finally {
     await act(async () => {

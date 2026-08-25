@@ -26,10 +26,11 @@ export default function Home() {
             </section>
 
             <section className="rounded-2xl border bg-card p-6 text-card-foreground shadow-sm">
-              <h2 className="text-lg font-semibold">Intended database</h2>
+              <h2 className="text-lg font-semibold">Database foundation</h2>
               <p className="mt-3 leading-7 text-muted-foreground">
-                MongoDB is the intended database for applications that need
-                persistent data. This base does not integrate it yet.
+                MongoDB supports reusable Better Auth sessions through the
+                native driver. Derived applications can use it for persistent
+                product data.
               </p>
             </section>
           </div>

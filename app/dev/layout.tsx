@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import type { ReactNode } from "react";
 import { isDevelopmentEnvironment } from "@/lib/environment/is-development-environment";
 
 export const metadata: Metadata = {
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function DevelopmentLayout(props: LayoutProps<"/dev">) {
+export default function DevelopmentLayout(props: { children: ReactNode }) {
   const { children } = props;
 
   const isDevelopment = isDevelopmentEnvironment();

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import "@/lib/styles/tailwind.css";
 import { ThemeToggle } from "@/lib/dark-mode/ThemeToggle.client";
 import { isDevelopmentEnvironment } from "@/lib/environment/is-development-environment";
@@ -31,7 +32,7 @@ function GlobalErrorPreviewTriggerContainer() {
   );
 }
 
-export default function RootLayout(props: LayoutProps<"/">) {
+export default function RootLayout(props: { children: ReactNode }) {
   const { children } = props;
 
   return (

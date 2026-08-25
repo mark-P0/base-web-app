@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: {
@@ -7,9 +8,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function NextHandlersDevelopmentLayout(
-  props: LayoutProps<"/dev/next-handlers">,
-) {
+export default function NextHandlersDevelopmentLayout(props: {
+  children: ReactNode;
+}) {
   const { children } = props;
 
   return children;
