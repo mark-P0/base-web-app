@@ -4,6 +4,8 @@ import {
   getAuthSessionKind,
 } from "./session-diagnostics";
 
+type AuthSessionDetailsVariant = "compact" | "full";
+
 function getAuthenticationState(sessionKind: AuthSessionKind) {
   if (sessionKind === "anonymous") {
     return "Anonymous session";
@@ -51,7 +53,45 @@ function SessionValue(props: { label: string; value: string }) {
   );
 }
 
-export function AuthSessionDetails(props: {
+function CompactSessionValue(props: { label: string; value: string }) {
+  const { label, value } = props;
+
+  return (
+    <div>
+      <dt className="font-mono text-xs font-medium tracking-wide text-muted-foreground uppercase">
+        {label}
+      </dt>
+      <dd className="mt-1 break-words text-sm font-medium">{value}</dd>
+    </div>
+  );
+}
+
+function CompactAuthSessionDetails(props: {
+  diagnostics: AuthSessionDiagnostics | null;
+}) {
+  const { diagnostics } = props;
+  const sessionKind = getAuthSessionKind(diagnostics);
+  const authenticationState = getAuthenticationState(sessionKind);
+
+  return (
+    <dl className="grid gap-3 rounded-lg border bg-background p-4 shadow-xs sm:grid-cols-3">
+      <CompactSessionValue
+        label="Authentication state"
+        value={authenticationState}
+      />
+      <CompactSessionValue
+        label="User ID"
+        value={diagnostics?.userId ?? "Not available"}
+      />
+      <CompactSessionValue
+        label="Session expiry"
+        value={diagnostics?.expiresAt ?? "Not available"}
+      />
+    </dl>
+  );
+}
+
+function FullAuthSessionDetails(props: {
   diagnostics: AuthSessionDiagnostics | null;
 }) {
   const { diagnostics } = props;
@@ -89,4 +129,23 @@ export function AuthSessionDetails(props: {
       <SessionValue label="Session expiry" value={diagnostics.expiresAt} />
     </dl>
   );
+}
+
+export function AuthSessionDetails(props: {
+  diagnostics: AuthSessionDiagnostics | null;
+  variant: AuthSessionDetailsVariant;
+}) {
+  const { diagnostics, variant } = props;
+
+  if (variant === "compact") {
+    return <CompactAuthSessionDetails diagnostics={diagnostics} />;
+  }
+
+  if (variant === "full") {
+    return <FullAuthSessionDetails diagnostics={diagnostics} />;
+  }
+
+  variant satisfies never;
+
+  return null;
 }

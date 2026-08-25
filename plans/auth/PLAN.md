@@ -37,7 +37,7 @@ Apply this protocol after every stage, including audit and plan removal:
 
 ## Current state
 
-- Completed through: Stage 6.
+- Completed through: Stage 7.
 - Stage 1 result: durable scope, interfaces, stages, checks, and assumptions recorded.
 - Stage 2 result: exact Better Auth, MongoDB adapter, native MongoDB driver, and `server-only` dependencies installed.
 - Better Auth includes other database adapters and Kysely transitively. Application code must use only the MongoDB adapter and native MongoDB driver.
@@ -51,7 +51,10 @@ Apply this protocol after every stage, including audit and plan removal:
 - Stage 6 result: permanent users can sign out. Anonymous users can delete the guest and end its session through the anonymous plugin endpoint.
 - Stage 6 result: authentication development UI lives under `lib/auth/development/`. Better Auth integration code remains under `lib/better-auth/`.
 - Stage 6 result: shared authentication development navigation, session details, actions, pending state, success status, and sanitized error components are ready for later method pages. Pending and failed session loads do not expose stale details or actions.
-- Next: add the anonymous authentication development page and reuse the Stage 6 session and action components.
+- Stage 7 result: `/dev/auth/anonymous` creates real anonymous sessions through `authClient.signIn.anonymous()` and explains creation, upgrade, data transfer, and guest deletion.
+- Stage 7 result: any active session disables anonymous sign-in. Anonymous sessions link to the Google and email upgrade demonstrations.
+- Stage 7 result: shared session details and actions include compact variants for method pages. Stage 7 tests use fake operations and need no MongoDB service.
+- Next: add the Google authentication development page and reuse the compact session and action components.
 
 ## Stages
 

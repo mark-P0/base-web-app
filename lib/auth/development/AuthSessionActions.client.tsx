@@ -8,6 +8,7 @@ import { AuthStatus } from "./AuthStatus";
 import type { AuthSessionKind } from "./session-diagnostics";
 
 type AuthAction = "delete-guest" | "sign-out";
+type AuthSessionActionsVariant = "compact" | "full";
 
 export type AuthOperation = () => Promise<{
   error?: unknown;
@@ -25,18 +26,35 @@ function getPendingMessage(pendingAction: AuthAction | null) {
   return "";
 }
 
+function getSectionClassName(variant: AuthSessionActionsVariant) {
+  if (variant === "compact") {
+    return "space-y-3 rounded-lg border bg-background p-4 shadow-xs";
+  }
+
+  if (variant === "full") {
+    return "space-y-4 rounded-xl border bg-background p-5 shadow-xs sm:p-6";
+  }
+
+  variant satisfies never;
+
+  return "";
+}
+
 export function AuthSessionActions(props: {
   deleteGuest: AuthOperation;
   onSessionChanged: () => Promise<void>;
   sessionKind: AuthSessionKind;
   signOut: AuthOperation;
+  variant: AuthSessionActionsVariant;
 }) {
-  const { deleteGuest, onSessionChanged, sessionKind, signOut } = props;
+  const { deleteGuest, onSessionChanged, sessionKind, signOut, variant } =
+    props;
   const [hasError, setHasError] = useState(false);
   const [pendingAction, setPendingAction] = useState<AuthAction | null>(null);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const isPending = Boolean(pendingAction);
   const pendingMessage = getPendingMessage(pendingAction);
+  const sectionClassName = getSectionClassName(variant);
 
   async function runAction(args: {
     action: AuthAction;
@@ -87,16 +105,18 @@ export function AuthSessionActions(props: {
     <section
       aria-busy={isPending}
       aria-labelledby="session-actions-heading"
-      className="space-y-4 rounded-xl border bg-background p-5 shadow-xs sm:p-6"
+      className={sectionClassName}
     >
       <div>
         <h2 id="session-actions-heading" className="text-lg font-semibold">
           Session actions
         </h2>
-        <p className="mt-1 text-sm leading-6 text-muted-foreground">
-          Permanent users keep their account when they sign out. Deleting a
-          guest removes its temporary user and ends its session.
-        </p>
+        {variant === "full" && (
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            Permanent users keep their account when they sign out. Deleting a
+            guest removes its temporary user and ends its session.
+          </p>
+        )}
       </div>
 
       {sessionKind === "signed-out" && (

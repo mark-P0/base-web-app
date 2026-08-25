@@ -53,7 +53,7 @@ export function AuthDevelopmentHubView(props: {
         />
         <AuthError active={hasSessionError} kind="session" />
         {isSessionAvailable && (
-          <AuthSessionDetails diagnostics={sessionDiagnostics} />
+          <AuthSessionDetails diagnostics={sessionDiagnostics} variant="full" />
         )}
       </section>
 
@@ -63,6 +63,7 @@ export function AuthDevelopmentHubView(props: {
           onSessionChanged={onSessionChanged}
           sessionKind={sessionKind}
           signOut={signOut}
+          variant="full"
         />
       )}
     </div>
