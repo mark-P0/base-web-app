@@ -120,7 +120,7 @@ export function AnonymousAuthDevelopmentPageView(props: {
         <ol className="list-decimal space-y-2 pl-5 text-sm leading-6 text-muted-foreground">
           <li>Better Auth creates a temporary user and session.</li>
           <li>
-            Google or email authentication can upgrade the guest to a permanent
+            Google or email authentication can upgrade the guest to a registered
             account.
           </li>
           <li>
@@ -178,7 +178,7 @@ export function AnonymousAuthDevelopmentPageView(props: {
               Upgrade this guest
             </h2>
             <p className="mt-1 text-sm leading-6 text-muted-foreground">
-              Continue with either permanent authentication demonstration.
+              Continue with Google or email to register this account.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">

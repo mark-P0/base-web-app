@@ -25,18 +25,18 @@ function createAnonymousSessionDiagnostics() {
   return diagnostics;
 }
 
-function createPermanentSessionDiagnostics() {
+function createRegisteredSessionDiagnostics() {
   const session = {
     session: {
       expiresAt: new Date("2031-02-03T04:05:06.000Z"),
-      token: "permanent-session-token-must-not-render",
+      token: "registered-session-token-must-not-render",
     },
     user: {
       email: "person@example.test",
       emailVerified: true,
-      id: "permanent-user-id",
+      id: "registered-user-id",
       isAnonymous: false,
-      name: "Permanent user",
+      name: "Registered user",
     },
   };
 
@@ -193,7 +193,7 @@ test("shows anonymous session details and deletes the guest", async () => {
   }
 });
 
-test("shows permanent session details and signs out", async () => {
+test("shows registered user session details and signs out", async () => {
   const deleteGuest = createSuccessfulOperation();
   const signOut = createSuccessfulOperation();
   const refreshSession = createSessionRefresh();
@@ -201,7 +201,7 @@ test("shows permanent session details and signs out", async () => {
     createElement(AuthDevelopmentHubView, {
       deleteGuest,
       onSessionChanged: refreshSession,
-      sessionDiagnostics: createPermanentSessionDiagnostics(),
+      sessionDiagnostics: createRegisteredSessionDiagnostics(),
       sessionError: null,
       sessionPending: false,
       signOut,
@@ -210,14 +210,14 @@ test("shows permanent session details and signs out", async () => {
 
   try {
     expect(rendered.container.textContent).toContain(
-      "Authentication statePermanent session",
+      "Authentication stateRegistered user session",
     );
     expect(rendered.container.textContent).toContain(
       "Email verificationVerified",
     );
     expect(rendered.container.textContent).toContain("Anonymous userNo");
     expect(rendered.container.textContent).not.toContain(
-      "permanent-session-token-must-not-render",
+      "registered-session-token-must-not-render",
     );
 
     await click(getButton({ container: rendered.container, name: "Sign out" }));
@@ -236,7 +236,7 @@ test("shows the session pending state without stale details", async () => {
     createElement(AuthDevelopmentHubView, {
       deleteGuest: createSuccessfulOperation(),
       onSessionChanged: createSessionRefresh(),
-      sessionDiagnostics: createPermanentSessionDiagnostics(),
+      sessionDiagnostics: createRegisteredSessionDiagnostics(),
       sessionError: null,
       sessionPending: true,
       signOut: createSuccessfulOperation(),
@@ -247,7 +247,7 @@ test("shows the session pending state without stale details", async () => {
     expect(rendered.container.textContent).toContain(
       "Loading authentication state…",
     );
-    expect(rendered.container.textContent).not.toContain("permanent-user-id");
+    expect(rendered.container.textContent).not.toContain("registered-user-id");
     expect(rendered.container.querySelector("button")).toBeNull();
   } finally {
     await rendered.unmount();
@@ -268,7 +268,7 @@ test("shows action pending state and disables the active action", async () => {
     createElement(AuthDevelopmentHubView, {
       deleteGuest: createSuccessfulOperation(),
       onSessionChanged: createSessionRefresh(),
-      sessionDiagnostics: createPermanentSessionDiagnostics(),
+      sessionDiagnostics: createRegisteredSessionDiagnostics(),
       sessionError: null,
       sessionPending: false,
       signOut: pendingOperation,
@@ -306,7 +306,7 @@ test("hides stale session details and actions after a session error", async () =
     createElement(AuthDevelopmentHubView, {
       deleteGuest: createSuccessfulOperation(),
       onSessionChanged: createSessionRefresh(),
-      sessionDiagnostics: createPermanentSessionDiagnostics(),
+      sessionDiagnostics: createRegisteredSessionDiagnostics(),
       sessionError: new Error("secret session token"),
       sessionPending: false,
       signOut: createSuccessfulOperation(),
@@ -320,7 +320,7 @@ test("hides stale session details and actions after a session error", async () =
     expect(rendered.container.textContent).not.toContain(
       "secret session token",
     );
-    expect(rendered.container.textContent).not.toContain("permanent-user-id");
+    expect(rendered.container.textContent).not.toContain("registered-user-id");
     expect(rendered.container.querySelector("button")).toBeNull();
   } finally {
     await rendered.unmount();
@@ -339,7 +339,7 @@ test("sanitizes operation errors", async () => {
     createElement(AuthDevelopmentHubView, {
       deleteGuest: createSuccessfulOperation(),
       onSessionChanged: createSessionRefresh(),
-      sessionDiagnostics: createPermanentSessionDiagnostics(),
+      sessionDiagnostics: createRegisteredSessionDiagnostics(),
       sessionError: null,
       sessionPending: false,
       signOut: operation,

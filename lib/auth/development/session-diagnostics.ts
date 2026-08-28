@@ -7,7 +7,7 @@ export type AuthSessionDiagnostics = {
   userId: string;
 };
 
-export type AuthSessionKind = "anonymous" | "permanent" | "signed-out";
+export type AuthSessionKind = "anonymous" | "registered" | "signed-out";
 
 function formatSessionExpiry(expiresAt: Date) {
   if (Number.isNaN(expiresAt.getTime())) {
@@ -62,7 +62,7 @@ export function getAuthSessionKind(diagnostics: AuthSessionDiagnostics | null) {
     return sessionKind;
   }
 
-  const sessionKind: AuthSessionKind = "permanent";
+  const sessionKind: AuthSessionKind = "registered";
 
   return sessionKind;
 }

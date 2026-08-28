@@ -41,7 +41,7 @@ function getGoogleSignInButtonLabel(args: {
   }
 
   if (sessionDiagnostics) {
-    return "Permanent session is active";
+    return "Registered user session is active";
   }
 
   return "Continue with Google";
@@ -100,11 +100,11 @@ export function GoogleAuthDevelopmentPageView(props: {
   const hasSessionError = Boolean(sessionError);
   const isSessionAvailable = !sessionPending && !hasSessionError;
   const sessionKind = getAuthSessionKind(sessionDiagnostics);
-  const hasPermanentSession = sessionKind === "permanent";
+  const hasRegisteredSession = sessionKind === "registered";
   const isSignInDisabled =
     !isGoogleConfigured ||
     !isSessionAvailable ||
-    hasPermanentSession ||
+    hasRegisteredSession ||
     isSubmitting;
   const buttonLabel = getGoogleSignInButtonLabel({
     isSubmitting,
@@ -155,8 +155,8 @@ export function GoogleAuthDevelopmentPageView(props: {
             Google authentication
           </h2>
           <p className="mt-1 text-sm leading-6 text-muted-foreground">
-            Sign in with Google, or link an anonymous user to a permanent Google
-            account.
+            Sign in with Google, or link an anonymous user to a registered
+            Google account.
           </p>
         </div>
 

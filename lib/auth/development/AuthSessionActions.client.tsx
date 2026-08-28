@@ -113,8 +113,9 @@ export function AuthSessionActions(props: {
         </h2>
         {variant === "full" && (
           <p className="mt-1 text-sm leading-6 text-muted-foreground">
-            Permanent users keep their account when they sign out. Deleting a
-            guest removes its temporary user and ends its session.
+            Registered users keep their account when they sign out. The session
+            can still expire or end. Deleting a guest removes its temporary user
+            and ends its session.
           </p>
         )}
       </div>
@@ -136,7 +137,7 @@ export function AuthSessionActions(props: {
         </Button>
       )}
 
-      {sessionKind === "permanent" && (
+      {sessionKind === "registered" && (
         <Button disabled={isPending} onClick={handleSignOut} type="button">
           Sign out
         </Button>

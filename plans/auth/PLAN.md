@@ -48,7 +48,7 @@ Apply this protocol after every stage, including audit and plan removal:
 - Stage 5 result: `transferAnonymousUserData()` runs before Better Auth removes a linked guest. Its base implementation is a documented no-op for derived applications to replace.
 - Stage 5 result: the catch-all Route Handler exports `GET` and `POST`; it handles Google callbacks. The same-origin React `authClient` includes the anonymous client plugin.
 - Stage 6 result: `/dev/auth` shows safe live session diagnostics and links to all authentication demonstrations and the protected page. An explicit safe mapping prevents session tokens and private fields from entering the rendered diagnostic model.
-- Stage 6 result: permanent users can sign out. Anonymous users can delete the guest and end its session through the anonymous plugin endpoint.
+- Stage 6 result: registered users can sign out without removing their account. Anonymous users can delete the guest and end its session through the anonymous plugin endpoint.
 - Stage 6 result: authentication development UI lives under `lib/auth/development/`. Better Auth integration code remains under `lib/better-auth/`.
 - Stage 6 result: shared authentication development navigation, session details, actions, pending state, success status, and sanitized error components are ready for later method pages. Pending and failed session loads do not expose stale details or actions.
 - Stage 7 result: `/dev/auth/anonymous` creates real anonymous sessions through `authClient.signIn.anonymous()` and explains creation, upgrade, data transfer, and guest deletion.
@@ -115,9 +115,9 @@ Apply this protocol after every stage, including audit and plan removal:
 - Add `/dev/auth` under the existing development-only layout.
 - Show active authentication state, user ID, name, email, verification state, anonymous state, and expiry. Never show tokens.
 - Add links to all method pages and the protected page.
-- Add sign-out for permanent users and **Delete guest and end session** for anonymous users.
+- Add sign-out for registered users and **Delete guest and end session** for anonymous users.
 - Add shared development navigation, session UI, pending state, status, and sanitized error components.
-- Test signed-out, anonymous, permanent, pending, success, and error states with fake auth operations.
+- Test signed-out, anonymous, registered, pending, success, and error states with fake auth operations.
 
 ### 7. Add the anonymous development page
 

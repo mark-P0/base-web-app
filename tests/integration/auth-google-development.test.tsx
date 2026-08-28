@@ -17,14 +17,14 @@ function createAnonymousSessionDiagnostics() {
   return diagnostics;
 }
 
-function createPermanentSessionDiagnostics() {
+function createRegisteredSessionDiagnostics() {
   const diagnostics: AuthSessionDiagnostics = {
     email: "person@example.test",
     emailVerified: true,
     expiresAt: "2031-02-03T04:05:06.000Z",
     isAnonymous: false,
-    name: "Permanent user",
-    userId: "permanent-user-id",
+    name: "Registered user",
+    userId: "registered-user-id",
   };
 
   return diagnostics;
@@ -221,7 +221,7 @@ test("upgrades an anonymous session through Google", async () => {
   }
 });
 
-test("prevents Google sign-in while a permanent session is active", async () => {
+test("prevents Google sign-in while a registered user session is active", async () => {
   const signInGoogle = createSuccessfulOperation();
   const signOut = createSuccessfulOperation();
   const refreshSession = createSessionRefresh();
@@ -230,7 +230,7 @@ test("prevents Google sign-in while a permanent session is active", async () => 
       deleteGuest: createSuccessfulOperation(),
       isGoogleConfigured: true,
       onSessionChanged: refreshSession,
-      sessionDiagnostics: createPermanentSessionDiagnostics(),
+      sessionDiagnostics: createRegisteredSessionDiagnostics(),
       sessionError: null,
       sessionPending: false,
       signInGoogle,
@@ -241,7 +241,7 @@ test("prevents Google sign-in while a permanent session is active", async () => 
   try {
     const activeButton = getButton({
       container: rendered.container,
-      name: "Permanent session is active",
+      name: "Registered user session is active",
     });
     expect(activeButton.disabled).toBe(true);
 

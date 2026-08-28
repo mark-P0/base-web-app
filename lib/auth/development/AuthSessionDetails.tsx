@@ -11,8 +11,8 @@ function getAuthenticationState(sessionKind: AuthSessionKind) {
     return "Anonymous session";
   }
 
-  if (sessionKind === "permanent") {
-    return "Permanent session";
+  if (sessionKind === "registered") {
+    return "Registered user session";
   }
 
   if (sessionKind === "signed-out") {

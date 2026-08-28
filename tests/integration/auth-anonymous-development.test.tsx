@@ -17,14 +17,14 @@ function createAnonymousSessionDiagnostics() {
   return diagnostics;
 }
 
-function createPermanentSessionDiagnostics() {
+function createRegisteredSessionDiagnostics() {
   const diagnostics: AuthSessionDiagnostics = {
     email: "person@example.test",
     emailVerified: true,
     expiresAt: "2031-02-03T04:05:06.000Z",
     isAnonymous: false,
-    name: "Permanent user",
-    userId: "permanent-user-id",
+    name: "Registered user",
+    userId: "registered-user-id",
   };
 
   return diagnostics;
@@ -184,7 +184,7 @@ test("prevents a second anonymous login and links to both upgrades", async () =>
   }
 });
 
-test("prevents anonymous login while a permanent session is active", async () => {
+test("prevents anonymous login while a registered user session is active", async () => {
   const signInAnonymous = createSuccessfulOperation();
   const signOut = createSuccessfulOperation();
   const refreshSession = createSessionRefresh();
@@ -192,7 +192,7 @@ test("prevents anonymous login while a permanent session is active", async () =>
     createElement(AnonymousAuthDevelopmentPageView, {
       deleteGuest: createSuccessfulOperation(),
       onSessionChanged: refreshSession,
-      sessionDiagnostics: createPermanentSessionDiagnostics(),
+      sessionDiagnostics: createRegisteredSessionDiagnostics(),
       sessionError: null,
       sessionPending: false,
       signInAnonymous,
@@ -211,7 +211,7 @@ test("prevents anonymous login while a permanent session is active", async () =>
 
     expect(signInAnonymous).not.toHaveBeenCalled();
     expect(rendered.container.textContent).toContain(
-      "Authentication statePermanent session",
+      "Authentication stateRegistered user session",
     );
     expect(
       rendered.container.querySelector("a[href='/dev/auth/google']"),
