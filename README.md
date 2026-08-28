@@ -2,7 +2,7 @@
 
 `base-web-app` is the common starting point for future web applications. It provides a consistent project structure, development tools, reusable application features, and instructions for agentic development.
 
-The current application stack uses Next.js, React, TypeScript, Tailwind CSS, and Bun. MongoDB is the intended database for applications that need persistent data. This repository does not include a MongoDB integration yet.
+The current application stack uses Next.js, React, TypeScript, Tailwind CSS, and Bun. Better Auth uses the native MongoDB driver for persistent authentication data.
 
 ## Purpose
 
@@ -15,6 +15,8 @@ This repository is also a place to improve that shared foundation. Add a feature
 - Next.js App Router with React and TypeScript
 - Tailwind CSS and reusable shadcn-based UI primitives
 - Dark mode support with a development preview and tests
+- Better Auth support for anonymous, Google, and email/password authentication
+- Native MongoDB authentication storage with transactions and process-level client reuse
 - Standard Next.js loading, error, global error, and not-found handlers
 - Development-only pages for visual previews and diagnostics
 - Biome for linting and formatting
@@ -48,9 +50,16 @@ Development previews are available under [http://localhost:3000/dev](http://loca
 
 ## Environment variables
 
-This base project does not require application environment variables.
+Authentication requires these server variables:
 
-When a derived project adds an environment variable:
+- `BETTER_AUTH_SECRET`
+- `BETTER_AUTH_URL`
+- `MONGODB_URI`
+- `MONGODB_DATABASE_NAME`
+
+Google authentication also requires `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` as a complete pair. See the [authentication usage guide](docs/auth/usage.md) for setup and deployment instructions.
+
+For all environment variables:
 
 - Keep local values and secrets in `.env.local` at the repository root.
 - Never commit secret values.
@@ -135,6 +144,7 @@ Run `bun run format` when files need formatting. Run a production build as a sep
 
 The current feature guides are:
 
+- [Authentication](docs/auth/usage.md)
 - [Dark mode](docs/dark-mode/usage.md)
 - [Next.js handlers](docs/next-handlers/usage.md)
 - [shadcn UI primitives](docs/shadcn/usage.md)

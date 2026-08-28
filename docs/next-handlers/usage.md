@@ -54,7 +54,7 @@ Use `error.digest` to match a server error with server logs. Do not add `error.m
 The application does not enable these experimental handlers:
 
 - `global-not-found.tsx` is not required because the application has one root layout. The stable root `not-found.tsx` handles unmatched URLs.
-- `unauthorized.tsx` is not required because the application has no authentication feature.
+- `unauthorized.tsx` is not required because protected content redirects signed-out requests during render. The application does not enable the experimental unauthorized handler.
 - `forbidden.tsx` is not required because the application has no authorization feature.
 
 Do not add experimental Next.js flags for these handlers. Review their status and the application requirements before you add them.
