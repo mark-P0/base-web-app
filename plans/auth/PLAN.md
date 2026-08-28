@@ -37,7 +37,7 @@ Apply this protocol after every stage, including audit and plan removal:
 
 ## Current state
 
-- Completed through: Stage 10.
+- Completed through: Stage 11.
 - Stage 1 result: durable scope, interfaces, stages, checks, and assumptions recorded.
 - Stage 2 result: exact Better Auth, MongoDB adapter, native MongoDB driver, and `server-only` dependencies installed.
 - Better Auth includes other database adapters and Kysely transitively. Application code must use only the MongoDB adapter and native MongoDB driver.
@@ -63,7 +63,10 @@ Apply this protocol after every stage, including audit and plan removal:
 - Stage 10 result: `/dev/auth/protected` is a Server Component that passes request headers to `auth.api.getSession()` and bypasses the cookie cache for database validation on every render.
 - Stage 10 result: unauthenticated requests redirect to `/dev/auth`. Authenticated requests render only the existing safe session diagnostics. The page is the security boundary and no `proxy.ts` is present.
 - Stage 10 result: focused integration tests use fake session reads and need no MongoDB service.
-- Next: complete authentication documentation and cross-flow tests.
+- Stage 11 result: `docs/auth/usage.md` documents secret generation, environment values, MongoDB replica-set and collection behavior, Google callback registration, deferred email features, guest-data transfer, protected content, and deployment configuration.
+- Stage 11 result: the README and home page now describe the native MongoDB authentication integration. The Next.js handler guide no longer states that authentication is absent.
+- Stage 11 result: cross-flow integration tests cover development navigation, shared fake-session changes, email and Google guest upgrades, guest deletion, and authentication-method isolation without MongoDB or Google.
+- Next: review authentication security and conventions, then complete manual authentication verification.
 
 ## Stages
 

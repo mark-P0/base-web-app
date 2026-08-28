@@ -16,7 +16,13 @@ test("presents the repository as a reusable application foundation", async () =>
 
     expect(heading?.textContent).toBe("Base Web App");
     expect(container.textContent).toContain("Reusable application foundation");
-    expect(container.textContent).toContain("Intended database");
+    expect(container.textContent).toContain("Authentication database");
+    expect(container.textContent).toContain(
+      "Better Auth uses the native MongoDB driver",
+    );
+    expect(container.textContent).not.toContain(
+      "This base does not integrate it yet.",
+    );
     expect(container.textContent).not.toContain("Hello, world!");
   } finally {
     await act(async () => {
