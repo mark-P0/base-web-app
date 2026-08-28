@@ -37,7 +37,7 @@ Apply this protocol after every stage, including audit and plan removal:
 
 ## Current state
 
-- Completed through: Stage 9.
+- Completed through: Stage 10.
 - Stage 1 result: durable scope, interfaces, stages, checks, and assumptions recorded.
 - Stage 2 result: exact Better Auth, MongoDB adapter, native MongoDB driver, and `server-only` dependencies installed.
 - Better Auth includes other database adapters and Kysely transitively. Application code must use only the MongoDB adapter and native MongoDB driver.
@@ -60,7 +60,10 @@ Apply this protocol after every stage, including audit and plan removal:
 - Stage 9 result: `/dev/auth/email` provides accessible email sign-up and sign-in forms. Native password constraints match Better Auth defaults of 8 to 128 characters.
 - Stage 9 result: account creation upgrades an anonymous user. Email sign-in can link an anonymous user to an existing account. Both flows run the existing anonymous data-transfer hook.
 - Stage 9 result: the page reuses compact session details and actions, explains excluded verification and recovery flows, and uses fake operations in focused integration tests.
-- Next: add database-validated protected-route behavior as a Server Component.
+- Stage 10 result: `/dev/auth/protected` is a Server Component that passes request headers to `auth.api.getSession()` and bypasses the cookie cache for database validation on every render.
+- Stage 10 result: unauthenticated requests redirect to `/dev/auth`. Authenticated requests render only the existing safe session diagnostics. The page is the security boundary and no `proxy.ts` is present.
+- Stage 10 result: focused integration tests use fake session reads and need no MongoDB service.
+- Next: complete authentication documentation and cross-flow tests.
 
 ## Stages
 
