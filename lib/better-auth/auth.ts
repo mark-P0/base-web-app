@@ -24,6 +24,9 @@ function getSocialProviders() {
 }
 
 export const auth = betterAuth({
+  account: {
+    encryptOAuthTokens: true,
+  },
   advanced: {
     database: {
       joins: true,
@@ -49,6 +52,9 @@ export const auth = betterAuth({
       },
     }),
   ],
+  rateLimit: {
+    storage: "database",
+  },
   secret: serverEnvironment.betterAuthSecret,
   socialProviders: getSocialProviders(),
 });

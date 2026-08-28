@@ -19,6 +19,8 @@ Add reusable Better Auth support for anonymous, Google, and email/password authe
 - `/dev/auth` shows the active session, session actions, method links, and safe diagnostics.
 - Extension point: `transferAnonymousUserData({ anonymousUserId, newUserId })`.
 - Enable MongoDB joins and native-client transactions.
+- Encrypt stored OAuth provider tokens.
+- Store production rate-limit counters in MongoDB.
 - Keep Better Auth password and session defaults.
 - Exclude email verification, password recovery, public auth pages, global route protection, ORMs, and ODMs.
 - Require MongoDB Atlas or a replica set. Reuse one `MongoClient` per process.
@@ -37,7 +39,7 @@ Apply this protocol after every stage, including audit and plan removal:
 
 ## Current state
 
-- Completed through: Stage 11.
+- Completed through: Stage 12.
 - Stage 1 result: durable scope, interfaces, stages, checks, and assumptions recorded.
 - Stage 2 result: exact Better Auth, MongoDB adapter, native MongoDB driver, and `server-only` dependencies installed.
 - Better Auth includes other database adapters and Kysely transitively. Application code must use only the MongoDB adapter and native MongoDB driver.
@@ -66,7 +68,11 @@ Apply this protocol after every stage, including audit and plan removal:
 - Stage 11 result: `docs/auth/usage.md` documents secret generation, environment values, MongoDB replica-set and collection behavior, Google callback registration, deferred email features, guest-data transfer, protected content, and deployment configuration.
 - Stage 11 result: the README and home page now describe the native MongoDB authentication integration. The Next.js handler guide no longer states that authentication is absent.
 - Stage 11 result: cross-flow integration tests cover development navigation, shared fake-session changes, email and Google guest upgrades, guest deletion, and authentication-method isolation without MongoDB or Google.
-- Next: review authentication security and conventions, then complete manual authentication verification.
+- Stage 12 result: authentication code meets repository, TypeScript, React, Next.js, Better Auth, MongoDB, accessibility, and security conventions. Server-only boundaries, fixed redirects, secret handling, safe diagnostics, native-driver-only access, client reuse, joins, and transactions are confirmed.
+- Stage 12 result: Better Auth encrypts stored OAuth provider tokens. Production rate-limit counters use atomic MongoDB operations and work across application processes. Deployment documentation requires platform-specific trusted client IP or proxy configuration.
+- Stage 12 result: live replica-set verification passed anonymous, email, Google, guest deletion, both account upgrades, sign-out, callback, and database-validated protected-page flows. Rendered diagnostics exposed no session token.
+- Stage 12 result: all `/dev` routes produce the Next.js not-found boundary and `noindex` marker in production. The root loading boundary causes the documented streamed HTTP `200` soft-404 response.
+- Next: audit the whole codebase.
 
 ## Stages
 
@@ -226,7 +232,10 @@ Apply this protocol after every stage, including audit and plan removal:
 - Guest deletion removes the anonymous user and session.
 - Automated tests need no external service.
 - No ORM or ODM is a direct application dependency or is used by application code.
+- Stored OAuth provider tokens are encrypted.
+- Production rate limits use shared MongoDB counters.
 - No secret or authentication token enters browser output or logs.
+- `/dev` routes render the not-found boundary outside development.
 - The whole-codebase audit has no unresolved findings unless the user accepts them.
 - Existing repository checks pass.
 

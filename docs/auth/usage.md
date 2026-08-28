@@ -59,12 +59,15 @@ The MongoDB adapter does not need a schema migration. Better Auth uses these def
 | --- | --- |
 | `user` | User identity data. The anonymous plugin adds the optional `isAnonymous` field. |
 | `session` | Session identifiers, expiry values, and request metadata. |
-| `account` | Email credential records and linked Google provider records. Provider tokens can be present in this collection. |
+| `account` | Email credential records and linked Google provider records. Better Auth encrypts stored Google provider tokens. |
 | `verification` | Verification and reset tokens when an application enables those flows. |
+| `rateLimit` | Production authentication rate-limit counters shared by all application processes. |
 
 MongoDB creates a collection when Better Auth first uses its model. The adapter creates the required indexes when it accesses that model. The anonymous plugin does not create a separate guest collection.
 
-Restrict database access to the application. Treat the `account`, `session`, and `verification` collections as sensitive data. Do not return their private fields in diagnostics or logs.
+Production rate limiting uses MongoDB instead of process memory. Better Auth updates each rate-limit counter with an atomic native-driver operation.
+
+Restrict database access to the application. Treat the `account`, `session`, `verification`, and `rateLimit` collections as sensitive data. Do not return their private fields in diagnostics or logs.
 
 ## Configure Google
 
@@ -123,7 +126,8 @@ Complete these tasks for each deployment environment:
 5. Use Atlas or another transaction-capable replica set.
 6. Register the exact Google callback URI when Google authentication is available.
 7. Use Node.js 20.19 or later for a Node.js deployment with MongoDB driver 7.
-8. Confirm that deployment logs and monitoring do not record secrets, session tokens, provider tokens, or passwords.
+8. Configure `advanced.ipAddress.ipAddressHeaders` with a trusted client IP header, or configure `advanced.ipAddress.trustedProxies` with the exact proxy addresses for the deployment platform. Ensure that the proxy replaces or sanitizes forwarded IP headers.
+9. Confirm that deployment logs and monitoring do not record secrets, session tokens, provider tokens, or passwords.
 
 Preview deployment URLs need separate configuration. Do not reuse a production callback URI for a different host.
 
