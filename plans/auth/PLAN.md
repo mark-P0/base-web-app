@@ -37,7 +37,7 @@ Apply this protocol after every stage, including audit and plan removal:
 
 ## Current state
 
-- Completed through: Stage 8.
+- Completed through: Stage 9.
 - Stage 1 result: durable scope, interfaces, stages, checks, and assumptions recorded.
 - Stage 2 result: exact Better Auth, MongoDB adapter, native MongoDB driver, and `server-only` dependencies installed.
 - Better Auth includes other database adapters and Kysely transitively. Application code must use only the MongoDB adapter and native MongoDB driver.
@@ -57,7 +57,10 @@ Apply this protocol after every stage, including audit and plan removal:
 - Stage 8 result: `/dev/auth/google` reports safe configured and unconfigured states and explains that partial Google credentials stop server startup. Credential values remain in the server-only environment module.
 - Stage 8 result: Google sign-in and anonymous upgrade use the fixed `/dev/auth/google` return path. The page shows compact session details and actions and disables invalid or repeated sign-in attempts.
 - Stage 8 result: Stage 8 integration tests inject fake Google redirect and session operations. They need no Google or MongoDB service.
-- Next: add the email/password authentication development page and reuse the shared session, status, and error components.
+- Stage 9 result: `/dev/auth/email` provides accessible email sign-up and sign-in forms. Native password constraints match Better Auth defaults of 8 to 128 characters.
+- Stage 9 result: account creation upgrades an anonymous user. Email sign-in can link an anonymous user to an existing account. Both flows run the existing anonymous data-transfer hook.
+- Stage 9 result: the page reuses compact session details and actions, explains excluded verification and recovery flows, and uses fake operations in focused integration tests.
+- Next: add database-validated protected-route behavior as a Server Component.
 
 ## Stages
 
